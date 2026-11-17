@@ -962,7 +962,6 @@ a.mbtn{text-decoration:none}
         <li><b>☁️</b><span>Progres tersimpan ke akun via ID — ganti HP tinggal muat.</span></li>
         <li><b>🔓</b><span>Paket Ekspansi sekali bayar membuka semua batas.</span></li>
       </ul>
-      <button class="mbtn sm" id="btnTrakteer" style="margin-bottom:8px">☕ Dukung via Trakteer</button>
       <button class="mbtn sm" id="btnTutorial" style="margin-bottom:8px">📖 Tutorial Lengkap</button>
       <button class="mbtn sm" id="btnContact" style="margin-bottom:8px">✉️ Hubungi Kami</button>
       <button class="mbtn sm" id="btnAboutBack">← Kembali</button>
@@ -1083,39 +1082,17 @@ a.mbtn{text-decoration:none}
   <div class="screen-inner">
     <div class="modal">
       <h2>✨ Paket Ekspansi</h2>
-      <div id="packStatus"></div>
-      <div class="pack-list" id="packList">
-        <div class="pack-item"><span class="pi-ic">🏢</span><div><b>Gedung 4 lantai · 24 kamar</b><i>Buka batas kamar gratis, langsung jadi kos gede.</i></div></div>
-        <div class="pack-item"><span class="pi-ic">❄️</span><div><b>Fasilitas premium</b><i>Kolam renang, lift, sampai rooftop cafe.</i></div></div>
-        <div class="pack-item"><span class="pi-ic">🕶️</span><div><b>Penghuni spesial</b><i>Pejabat, artis, karyawan kantor — sewa gede.</i></div></div>
-        <div class="pack-item"><span class="pi-ic">✅</span><div><b>Tanpa tawaran paket + badge Supporter</b><i>Badge emas tampil di layar kamu.</i></div></div>
+      <div class="pack-ok" id="packStatus" hidden>Paket Ekspansi aktif</div>
+      <div class="pack-list">
+        <div class="pack-item"><span class="pi-ic">🏢</span><div><b>Hingga 4 lantai · 24 kamar</b><i>Bangun lantai 2, 3, dan 4 secara bertahap dari panel kos.</i></div></div>
+        <div class="pack-item"><span class="pi-ic">🏊</span><div><b>Fasilitas eksklusif</b><i>Kolam renang, lift, dan rooftop café bisa dibeli dari panel Fasilitas.</i></div></div>
+        <div class="pack-item"><span class="pi-ic">🔑</span><div><b>Penghuni tambahan</b><i>Pejabat, artis, dan karyawan kantor bisa datang saat ada kamar kosong.</i></div></div>
       </div>
-      <div id="packPrice"></div>
-      <div class="pack-id">
-        <span>ID kamu</span><b id="packId">JK------</b>
-        <button class="mini-btn" id="btnCopyPid">Salin</button>
-      </div>
-      <ol class="pack-steps">
-        <li><b>1.</b><span>Salin <b>ID kamu</b> di atas.</span></li>
-        <li><b>2.</b><span>Tekan tombol bayar. Di halaman Trakteer, pastikan nominalnya <b>sesuai harga di atas</b>, lalu tempel ID kamu di kolom <b>Pesan</b>.</span></li>
-        <li><b>3.</b><span><b>WAJIB</b> tempel <b>ID kamu</b> di kolom <b>Pesan</b> di halaman Trakteer — kalau kosong, paket tidak bisa aktif otomatis.</span></li>
-        <li><b>4.</b><span>Balik ke sini dan tekan <b>Cek Pembayaran</b> — terbuka otomatis.</span></li>
-      </ol>
-      <button class="mbtn gold" id="btnPackPay"><span class="ic">☕</span> BAYAR VIA TRAKTEER</button>
-      <div id="packPayBtns" style="display:none;flex-direction:column;gap:8px"></div>
-      <button class="mbtn" id="btnPackCheck" style="margin-top:8px"><span class="ic">🔄</span> CEK PEMBAYARAN</button>
-      <div class="pack-restore">
-        <button class="pack-restore-toggle" id="btnShowRestore">🔑 Sudah punya paket di HP lain? Pulihkan di sini</button>
-        <div class="pack-restore-body" id="packRestoreBody" hidden>
-          <div style="display:flex;gap:6px">
-            <input id="restoreId" class="pack-restore-in" placeholder="Tempel ID kamu (mis. JK4F7A2C)" maxlength="14" autocomplete="off">
-            <button class="mini-btn" id="btnRestore">Pulihkan</button>
-          </div>
-          <div class="pack-restore-note" id="restoreNote">Masukkan ID yang kamu simpan saat membeli — status pembayaran dicek ke server.</div>
-        </div>
-      </div>
+      <div class="pack-note" id="packNextFloor"></div>
+      <div class="pack-price" id="packPrice"><b id="packAmount"></b></div>
+      <p class="pack-note" id="packBalance"></p>
+      <button class="mbtn gold" id="btnPackBuy">Beli Paket Ekspansi</button>
       <button class="mbtn sm" id="btnPackBack" style="margin-top:8px">← Kembali</button>
-      <div class="pack-soon" id="packSoon">Sekali bayar · akses permanen · tanpa langganan</div>
     </div>
   </div>
 </div>
@@ -1166,7 +1143,7 @@ a.mbtn{text-decoration:none}
       <div class="brand-ava" id="ownerAva"></div>
       <div class="brand-info">
         <div class="brand-title" id="kosTitle">Kos Senja</div>
-        <div class="brand-sub"><span class="brand-sub-txt">oleh <b id="ownerName">Pak Budi</b></span><span class="sup-chip mini" id="supChip" hidden title="Pendukung Paket Ekspansi">⭐ Supporter</span></div>
+        <div class="brand-sub"><span class="brand-sub-txt">oleh <b id="ownerName">Pak Budi</b></span><span class="sup-chip mini" id="supChip" hidden title="Pendukung Paket Ekspansi">Ekspansi aktif</span></div>
       </div>
     </div>
     <div class="tools">
@@ -1658,17 +1635,12 @@ function makeTenant(key){
 }
 
 /* ---------- paket ekspansi ---------- */
-const TRAKTEER_URL = 'https://trakteer.id/tenzou.dev/gift';
-// Trakteer belum mendukung link per-unit / per-nominal, jadi halaman gift dipakai apa adanya.
-// Harga unit Trakteer harus SAMA dengan harga di game (lihat dasbor admin).
-const TRAKTEER_UNITS = {};
 const API_BASE = 'local-only';
 async function localOnlyRequest(){
   return { json: async () => ({ ok:false, error:'server_unavailable' }) };
 }
-const PACK_PRICE = 39000;
-const PACK_PRICE_EARLY = 15000;   // early bird ditutup (51/50 terjual) — harga normal berlaku untuk semua
-const PACK_EARLY_SLOTS = 50;
+const PACK_PRICE = 5000000;
+const packRupiah = new Intl.NumberFormat('id-ID');
 
 function genPid(){
   try{
@@ -2244,7 +2216,7 @@ function updateBrand(){
   const bp = $('#btnPack');
   if(bp) bp.textContent = S.expansion ? 'Aktif' : 'Buka';
   const ps = $('#packRowStatus');
-  if(ps) ps.textContent = S.expansion ? '✅ Paket aktif — semua batas terbuka' : 'Buka batas kamar & fitur premium';
+  if(ps) ps.textContent = S.expansion ? 'Paket Ekspansi aktif' : 'Buka batas kamar & fitur premium';
   document.title = S.setupDone ? `${S.kosName} — Juragan Kost` : 'Juragan Kost — Simulator Kos-Kosan';
 }
 
@@ -2298,6 +2270,7 @@ function updateHUD(){
   updateDollarBadges();
   renderClass();
   renderScene();
+  if(currentScreen() === 'scrPack') refreshPack();
 }
 
 function nextExpansion(){
@@ -2975,7 +2948,6 @@ function showScreen(id){
   document.querySelectorAll('.screen').forEach(s => s.classList.toggle('show', s.id === id));
   const el = document.getElementById(id);
   if(el) el.scrollTop = 0;
-  if(id !== 'scrPack' && packPollTimer){ clearInterval(packPollTimer); packPollTimer = null; }
   if(id !== 'scrLeaderboard') stopLbCount();
 }
 function hideScreens(){ document.querySelectorAll('.screen').forEach(s => s.classList.remove('show')); }
@@ -3115,152 +3087,50 @@ function openSettings(){
 function openAbout(){ auxReturn = backTarget(); showScreen('scrAbout'); }
 
 /* ---------- paket ekspansi ---------- */
-let packInfo = null, packPollTimer = null;
-
-function packSetBusy(busy){
-  const b = $('#btnPackCheck');
-  if(!b) return;
-  b.disabled = !!busy;
-  b.innerHTML = busy ? '<span class="ic">⏳</span> MEMERIKSA...' : '<span class="ic">🔄</span> CEK PEMBAYARAN';
-}
-
-function payUrl(price){
-  const slug = TRAKTEER_UNITS[price];
-  return slug ? `${TRAKTEER_URL}/${encodeURIComponent(slug)}` : TRAKTEER_URL;
-}
-
-// Salin ID pemain ke clipboard (dipakai tombol Salin & panduan bayar).
-function copyPid(){
-  const v = S.pid || '';
-  try{
-    if(navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(v);
-  }catch(e){}
-  return v;
-}
-
-// Panduan singkat sebelum ke Trakteer — supaya ID tidak lupa ditulis di kolom Pesan.
-function showPayGuide(price){
-  const id = S.pid || 'JK------';
-  const priceTxt = rp(price);
-  showModal({
-    title: '⚠️ Baca dulu sebelum bayar',
-    body: `<div style="text-align:left">
-      <div style="font-weight:800;margin:0 0 6px">1. Salin ID kamu (wajib)</div>
-      <div style="display:flex;align-items:center;gap:8px;padding:8px 10px;border-radius:12px;background:#0f1c33;border:1px solid #26374f;margin:0 0 10px">
-        <span style="font-size:10px;color:#8fa3c2;font-weight:800">ID</span>
-        <b style="flex:1;text-align:center;font-family:var(--display);font-size:16px;color:#ffd873;letter-spacing:2px">${esc(id)}</b>
-      </div>
-      <div style="font-weight:800;margin:0 0 4px">2. Di Trakteer, tempel ID itu di kolom <b>Pesan</b></div>
-      <div style="font-weight:600;color:#455a7d;margin:0 0 10px">Kolom <b>Nama</b> boleh nama apa saja. Unit tetap <b>Paket Ekspansi</b>.</div>
-      <div style="font-weight:800;margin:0 0 4px">3. Pastikan nominal <b>${esc(priceTxt)}</b>, lalu bayar</div>
-      <div style="font-weight:600;color:#455a7d;margin:0 0 10px">Balik ke halaman ini, tekan <b>Cek Pembayaran</b>.</div>
-      <div style="background:#fff3f3;border:1px solid #f3c2c2;color:#b3261e;border-radius:10px;padding:8px 10px;font-weight:700;font-size:11.5px;line-height:1.45">⚠️ Kalau ID tidak ditulis di kolom <b>Pesan</b>, paket tidak bisa aktif otomatis dan harus dibantu admin. Jangan bayar dobel — cukup tambah kekurangannya.</div>
-    </div>`,
-    choices: [
-      { label: '📋 Salin ID & buka Trakteer', sub: `${id} · ${priceTxt}`, onClick(){
-        copyPid();
-        window.open(payUrl(price), '_blank', 'noopener');
-        closeModal();
-        toast('ID disalin — tempel di kolom Pesan Trakteer 👇', 'gold');
-      }},
-      { label: 'Batal', sub: 'Belum bayar sekarang', onClick(){ closeModal(); } },
-    ],
-    closable: true,
-  });
-}
-
-function refreshPayButtons(price, short){
-  const pay = $('#btnPackPay');
-  const wrap = $('#packPayBtns');
-  if(!pay || !wrap) return;
-
-  // Kasus kurang bayar: tampilkan tombol khusus untuk menutup kekurangan.
-  if(short !== null && short > 0 && short !== price && short <= price){
-    pay.style.display = 'none';
-    wrap.style.display = 'flex';
-    wrap.innerHTML = `<button class="mbtn gold" data-pay="${short}"><span class="ic">☕</span> BAYAR KEKURANGAN ${rp(short)}</button>
-      <button class="mbtn sm" data-pay="${price}">Bayar penuh ${rp(price)}</button>`;
-    return;
-  }
-  wrap.style.display = 'none';
-  wrap.innerHTML = '';
-  pay.style.display = '';
-  pay.innerHTML = `<span class="ic">☕</span> BAYAR ${rp(price)} VIA TRAKTEER`;
-  pay.dataset.pay = price;
-}
-
 function refreshPack(){
-  $('#packId').textContent = S.pid || '-';
-  const on = !!S.expansion;
-  document.querySelectorAll('#packList .pack-item').forEach(el => el.classList.toggle('got', on));
-
-  $('#packStatus').innerHTML = on
-    ? `<div class="pack-ok">✅ Paket Ekspansi aktif${S.packName ? ' — terima kasih, ' + esc(S.packName) + '!' : '!'}</div>`
-    : `<div class="pack-hero"><b>Buka semua batas kos kamu</b><span>Sekali bayar, aktif permanen di kos ini.</span></div>`;
-
-  $('#btnPackPay').style.display = on ? 'none' : '';
-  $('#btnPackCheck').style.display = on ? 'none' : '';
-  const steps = document.querySelector('.pack-steps');
-  if(steps) steps.style.display = on ? 'none' : '';
-  $('#packSoon').textContent = on ? '✅ Status: UNLOCKED · ID ini untuk memulihkan akses di HP lain' : 'Sekali bayar · akses permanen · tanpa langganan';
-
-  const price = (packInfo && Number(packInfo.price)) || PACK_PRICE;
-  const short = (packInfo && typeof packInfo.short === 'number') ? packInfo.short : null;
-  const credit = (packInfo && Number(packInfo.creditTotal)) || 0;
-  const left = (packInfo && typeof packInfo.slotsLeft === 'number') ? packInfo.slotsLeft : null;
-
-  if(on){
-    $('#packPrice').innerHTML = '';
-    $('#packPayBtns').style.display = 'none';
-    return;
-  }
-
-  let creditLine = '';
-  if(short !== null && short > 0 && credit > 0){
-    creditLine = `<div class="pack-credit">💳 Sudah masuk <b>${rp(credit)}</b> — kurang <b>${rp(short)}</b> lagi untuk aktif. Jangan bayar dobel, cukup tambah kekurangannya saja.</div>`;
-  }
-
-  let priceLine;
-  if(left !== null && left > 0 && price <= PACK_PRICE_EARLY){
-    priceLine = `<div class="pack-price"><s>${rp(PACK_PRICE)}</s><b>${rp(price)}</b></div><div class="pack-note">🎉 Early bird — sisa ${left} dari ${PACK_EARLY_SLOTS} slot!</div>`;
-  }else{
-    priceLine = `<div class="pack-price"><b>${rp(price)}</b></div><div class="pack-note">Harga normal.</div>`;
-  }
-  $('#packPrice').innerHTML = creditLine + priceLine;
-  refreshPayButtons(price, short);
+  const active = S.expansion;
+  const next = nextExpansion();
+  const balance = Math.floor(S.money);
+  const shortfall = Math.max(0, PACK_PRICE - balance);
+  $('#packStatus').hidden = !active;
+  $('#packPrice').hidden = active;
+  $('#packAmount').textContent = `Rp ${packRupiah.format(PACK_PRICE)} uang game`;
+  $('#packNextFloor').textContent = next
+    ? `Biaya pembangunan ${next.label.toLowerCase()}: Rp ${packRupiah.format(next.cost)}.`
+    : 'Semua lantai sudah tersedia.';
+  $('#packBalance').hidden = active;
+  $('#packBalance').textContent = S.setupDone
+    ? `Saldo Rp ${packRupiah.format(balance)}${shortfall ? ` · kurang Rp ${packRupiah.format(shortfall)}` : ''}`
+    : 'Mulai permainan untuk membeli paket.';
+  const button = $('#btnPackBuy');
+  button.hidden = active;
+  button.disabled = !S.setupDone || shortfall > 0;
 }
 
-function applyPack(info){
-  if(S.expansion) return;
-  S.expansion = true;
-  S.packAt = Date.now();
-  S.packName = info && info.name ? String(info.name).slice(0, 40) : '';
-  save();
+function openPack(){
+  if(currentScreen() !== 'scrPack') auxReturn = backTarget();
+  refreshPack();
+  showScreen('scrPack');
+  $('#btnPackBack').focus();
+}
+
+function buyExpansionPack(){
+  if(reloadGuard || !S.setupDone || S.expansion || !(S.money >= PACK_PRICE)) return;
+  const purchase = {money:S.money-PACK_PRICE, expansion:true, packAt:Date.now(), savedAt:Date.now()};
+  try{
+    localStorage.setItem(SAVE_KEY, JSON.stringify({...S,...purchase}));
+  }catch(e){
+    toast('Paket belum bisa disimpan. Coba lagi setelah penyimpanan browser tersedia.', 'bad');
+    return;
+  }
+  Object.assign(S,purchase);
   sfxBuy();
   updateBrand();
   renderAmenities();
   refreshAll();
   refreshPack();
-  toast('✨ Paket Ekspansi aktif! Fasilitas premium & lantai baru terbuka 🎉', 'gold');
-  cloudSave(true);
-}
-
-// Kebalikan applyPack: dipakai kalau server MEMASTIKAN akun ini belum bayar
-// (mis. pemain mengaktifkan paket dengan mengubah data simpanan). Hak akses
-// paket diturunkan supaya tidak bisa dipakai gratis.
-function revokePack(){
-  if(!S.expansion) return;
-  S.expansion = false;
-  if((S.unlocked|0) > 6) S.unlocked = 6;
-  if((S.bclass|0) > 0) S.bclass = 0;
-  activeFloor = 0;
-  save();
-  buildGrid();
-  renderAmenities();
-  renderClass();
-  updateBrand();
-  refreshAll();
-  toast('🔒 Paket Ekspansi tidak aktif untuk akun ini.', 'bad');
+  $('#btnPackBack').focus();
+  toast('Paket Ekspansi aktif. Bangun lantai baru dari panel kos.', 'gold');
 }
 
 /* ---------- peringatan kecurangan ---------- */
@@ -3313,70 +3183,11 @@ function resetAfterCheat(){
   location.reload();
 }
 
-async function checkPack(quiet){
-  if(!S.pid) S.pid = genPid();
-  if(!quiet) packSetBusy(true);
-  try{
-    const res = await localOnlyRequest(`${API_BASE}/unlock?id=${encodeURIComponent(S.pid)}`, { cache: 'no-store' });
-    const d = await res.json();
-    if(d && d.ok){
-      packInfo = d;
-      if(d.paid) applyPack(d.info);
-      else{
-        // Server otoritatif: kalau pembacaan berhasil DAN pemain belum bayar,
-        // jangan biarkan hak akses paket tetap aktif dari simpanan lokal.
-        if(d.known !== false && S.expansion) revokePack();
-        if(!quiet && d.short > 0 && d.creditTotal > 0){
-          toast(`Pembayaran masuk ${rp(d.creditTotal)}. Kurang ${rp(d.short)} lagi ya 👍`, 'gold');
-        }
-      }
-      if(d.flagged) maybeCheatNotice(d);
-    }
-  }catch(e){ /* offline atau tanpa koneksi — abaikan */ }
-  if(!quiet) packSetBusy(false);
-  refreshPack();
-}
-
-function openPack(){
-  showModal({
-    title:'Paket Ekspansi',
-    body:'Verifikasi pembelian tersedia di <a href="https://juragankost.tenzou.dev/" target="_blank" rel="noopener">game asli</a>.',
-    choices:[{label:'Kembali', onClick:closeModal}],
-    closable:true,
-  });
-}
-
-/* ---------- pulihkan paket di HP lain pakai ID ---------- */
 function normalizePid(raw){
   let v = String(raw || '').toUpperCase().replace(/[^A-Z0-9]/g, '');
   if(!/^JK/.test(v)) v = 'JK' + v;
   return v;
 }
-async function restorePack(){
-  const note = $('#restoreNote');
-  const id = normalizePid($('#restoreId').value);
-  if(!/^JK[0-9A-Z]{4,12}$/.test(id)){ note.textContent = 'ID tidak valid. Contoh: JK4F7A2C'; note.style.color = '#c0392b'; return; }
-  note.style.color = ''; note.textContent = 'Memeriksa ID ' + id + ' ke server…';
-  try{
-    const res = await localOnlyRequest(`${API_BASE}/unlock?id=${encodeURIComponent(id)}`, { cache: 'no-store' });
-    const d = await res.json();
-    if(!d || !d.ok || d.known === false){ note.textContent = 'Gagal memeriksa. Coba lagi.'; note.style.color = '#c0392b'; return; }
-    if(d.paid){
-      S.pid = id;
-      applyPack(d.info || { name: '' });
-      note.textContent = '✅ Paket dipulihkan untuk ID ' + id;
-    }else{
-      note.textContent = d.creditTotal > 0
-        ? `ID ${id} belum lunas — baru masuk ${rp(d.creditTotal)}, kurang ${rp(d.short)}.`
-        : `ID ${id} belum terdaftar sebagai pembeli. Pastikan ID benar.`;
-      note.style.color = '#a86a00';
-    }
-  }catch(e){
-    note.textContent = 'Tidak bisa menghubungi server. Cek koneksi lalu coba lagi.';
-    note.style.color = '#c0392b';
-  }
-}
-
 /* ---------- quest (harian / mingguan / bulanan) ---------- */
 const QUESTS = [
   // Harian
@@ -3414,7 +3225,7 @@ const ACHIEVEMENTS = [
   {id:'t_prest10', ic:'🔁', name:'Siklus Juragan',    desc:'Renovasi Total 10×',            target:10,  of:()=>S.prestige|0,                                      fmt:'count', reward:{stars:5,  money:100000000}},
   {id:'t_earn1b',  ic:'💵', name:'Rp 1 Miliar',       desc:'Total pendapatan Rp 1 miliar',  target:1e9, of:()=>S.lifetime||0,                                    fmt:'money', reward:{stars:5,  money:100000000}},
   {id:'t_earn1t',  ic:'🏦', name:'Rp 1 Triliun',      desc:'Total pendapatan Rp 1 triliun', target:1e12,of:()=>S.lifetime||0,                                    fmt:'money', reward:{stars:20, money:0}},
-  {id:'t_support', ic:'✨', name:'Juragan Pendukung', desc:'Punya Paket Ekspansi',          target:1,   of:()=>S.expansion?1:0,                                  fmt:'count', reward:{stars:3,  money:0}},
+  {id:'t_support', ic:'✨', name:'Juragan Ekspansi', desc:'Punya Paket Ekspansi',          target:1,   of:()=>S.expansion?1:0,                                  fmt:'count', reward:{stars:3,  money:0}},
   {id:'t_class2',  ic:'🏡', name:'Naik Kelas',        desc:'Jadikan kosmu Kos Eksklusif',   target:1,   of:()=>(S.bclass|0)>=1?1:0,                                fmt:'count', reward:{stars:4,  money:50000000}},
   {id:'t_class3',  ic:'🏙️', name:'Juragan Properti',  desc:'Naik kelas sampai Apartemen',   target:1,   of:()=>(S.bclass|0)>=2?1:0,                                fmt:'count', reward:{stars:10, money:250000000}},
 ];
@@ -3963,8 +3774,8 @@ function renderProfile(){
   $('#pfName').textContent = S.owner || 'Pak Budi';
   $('#pfKos').textContent = S.kosName || 'Kos Senja';
   $('#pfSupp').innerHTML = S.expansion
-    ? '<span class="sup-chip">⭐ Supporter</span>'
-    : '<span class="pf-lock-note">Belum mendukung</span>';
+    ? '<span class="sup-chip">Ekspansi aktif</span>'
+    : '<span class="pf-lock-note">Paket Ekspansi belum aktif</span>';
   $('#pfInOwner').value = S.owner || '';
   $('#pfInKos').value = S.kosName || '';
   $('#pfId').textContent = S.pid || '-';
@@ -4030,7 +3841,7 @@ function lbRow(e, rank){
     <div class="lb-rank">${lbMedal(rank)}</div>
     <div class="lb-ava${sup?' sup':''}">${avatarFromPayload(e.avatar, e.gender)}</div>
     <div class="lb-txt">
-      <div class="lb-name">${esc(e.name || 'Anonim')}${sup?'<span class="sup-chip mini">⭐ Supporter</span>':''}</div>
+      <div class="lb-name">${esc(e.name || 'Anonim')}${sup?'<span class="sup-chip mini">Ekspansi aktif</span>':''}</div>
       <div class="lb-sub">${esc(e.kos || 'Tanpa nama kos')} · ⭐${e.stars|0} · total ${rp(tot)}</div>
     </div>
     <div class="lb-score">+${rp(Number(e.score) || 0)}</div>
@@ -4243,7 +4054,6 @@ $('#btnRenameApply').addEventListener('click', applyRename);
 $('#btnRenameBack').addEventListener('click', closeAux);
 $('#btnRenameShop').addEventListener('click', openShop);
 $('#rnKos').addEventListener('keydown', e=>{ if(e.key === 'Enter') applyRename(); });
-$('#btnTrakteer').addEventListener('click', ()=>{ const price = (packInfo && Number(packInfo.price)) || PACK_PRICE; showPayGuide(price); });
 $('#btnMenu').addEventListener('click', openGameMenu);
 $('#btnResume').addEventListener('click', hideScreens);
 $('#btnPauseSettings').addEventListener('click', openSettings);
@@ -4347,30 +4157,7 @@ $('#btnContact').addEventListener('click', ()=>{
   const body = encodeURIComponent('Halo tenzou.dev,\n\nID akun saya: ' + (S.pid || '-') + '\n\n');
   window.location.href = `mailto:mail@tenzou.dev?subject=${subject}&body=${body}`;
 });
-$('#btnPackPay').addEventListener('click', (e)=>{
-  const price = Number(e.currentTarget.dataset.pay) || PACK_PRICE;
-  showPayGuide(price);
-});
-$('#packPayBtns').addEventListener('click', (e)=>{
-  const b = e.target.closest('[data-pay]');
-  if(!b) return;
-  showPayGuide(Number(b.dataset.pay) || PACK_PRICE);
-});
-$('#btnPackCheck').addEventListener('click', ()=> checkPack(false));
-$('#btnShowRestore').addEventListener('click', ()=>{
-  const body = $('#packRestoreBody'), btn = $('#btnShowRestore');
-  const showing = body.hidden;
-  body.hidden = !showing;
-  btn.textContent = showing ? '✕ Tutup' : '🔑 Sudah punya paket di HP lain? Pulihkan di sini';
-  if(showing) setTimeout(()=>{ const el = $('#restoreId'); if(el) el.focus(); }, 30);
-});
-$('#btnRestore').addEventListener('click', restorePack);
-$('#restoreId').addEventListener('keydown', e=>{ if(e.key === 'Enter') restorePack(); });
-$('#btnCopyPid').addEventListener('click', ()=>{
-  const v = copyPid();
-  if(navigator.clipboard && navigator.clipboard.writeText) toast('ID disalin ✓', 'good');
-  else toast('ID kamu: ' + v, '');
-});
+$('#btnPackBuy').addEventListener('click', buyExpansionPack);
 
 /* ---------- boot ---------- */
 function refreshAll(){
@@ -4398,7 +4185,6 @@ function boot(){
   syncSwitches();
   updateMenuInfo();
   if(had) computeOffline();
-  checkPack(true);
 
   qCheckReset();
   updateQuestBadge();
