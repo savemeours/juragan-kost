@@ -47,6 +47,28 @@ canvas{display:block;width:100%;height:100%;touch-action:none}
 .controls button:active{background:#be813d}
 .controls span{grid-column:1/-1;font-size:10px;text-align:center;text-shadow:0 1px 2px #102620}
 @media(max-width:560px){.header{gap:4px}.logo{width:32px;height:32px;font-size:12px}.brand{gap:5px}.brand h1{font-size:14px}.brand p{display:none}.stats{gap:3px}.stat{padding:5px;min-width:48px}.stat b{font-size:11px}.stat span{font-size:9px}#goal{top:68px;max-width:58%;padding:8px 10px;font-size:11px}.game-link{top:68px;font-size:10px;padding:6px 8px}#notice{top:139px}.controls{grid-template-columns:repeat(3,34px)}.controls button{min-height:34px}}
+
+.nav{position:absolute;right:clamp(12px,3vw,30px);top:90px;display:flex;gap:6px;align-items:center}
+.nav .game-link{position:static}
+#customize{background:#f4c981;color:#25261d;border:0;border-radius:10px;padding:8px 10px;font-size:12px;font-weight:800}
+.controls{display:flex;flex-direction:column;align-items:center}
+#joystick{display:grid;place-items:center;width:94px;height:94px;border-radius:100%;position:relative;background:#142821b6;border:1px solid #faf5dc82;touch-action:none}
+#stick{width:42px;height:42px;background:#e8b768;border:2px solid #f6d8a1;border-radius:50%;pointer-events:none}
+#avatarDialog{width:min(365px,calc(100% - 30px));max-height:calc(100dvh - 40px);padding:20px;border-radius:18px;border:1px solid #c1cfa663;color:#f7f2e3;background:#1a2d27}
+#avatarDialog::backdrop{background:#15252080}
+#avatarDialog h2{margin:0 0 12px}
+#avatarForm{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+#avatarForm label{display:grid;gap:4px;font-size:12px}
+#avatarForm select{font:inherit;padding:8px;border-radius:8px;color:#fff;background:#2b4034;border:1px solid #768b75;width:100%}
+.avatar-buttons{grid-column:1/-1;display:flex;justify-content:flex-end;gap:6px;margin-top:6px}
+.classic-link{color:#e4e6d5;font-size:11px;align-self:center;margin-right:auto}
+.avatar-buttons button{padding:8px 12px;border-radius:8px;border:1px solid #9da992;background:#263c34}
+.avatar-buttons button[type=submit]{background:#f4c981;color:#25261d;border-color:#f4c981;font-weight:800}
+.avatar-preview{grid-column:1/-1;height:135px;overflow:hidden;border-radius:10px;background:#84998b}
+.avatar-preview canvas{position:static;width:100%;height:100%}
+#avatarError{grid-column:1/-1;font-size:12px;color:#ffd2ad;margin:0}
+#avatarError:empty{display:none}
+@media(max-width:560px){.nav{top:68px;gap:4px}.nav .game-link,#customize{font-size:10px;padding:6px}.nav .game-link{display:none}#joystick{width:88px;height:88px}#stick{width:38px;height:38px}}
 </style>
 </head>
 <body>
@@ -57,12 +79,11 @@ canvas{display:block;width:100%;height:100%;touch-action:none}
     <div class="stats"><div class="stat"><span>Saldo</span><b id="cash">—</b></div><div class="stat"><span>Terisi</span><b id="occupancy">—</b></div><div class="stat"><span>Sewa ditahan</span><b id="rent">—</b></div></div>
   </header>
   <div id="goal"><b>TARGET</b><span id="objective">Bangun kamar pertama.</span></div>
-  <a class="game-link" href="klasik.html">Versi klasik</a>
+  <div class="nav"><button id="customize">Karakter</button><a class="game-link" href="klasik.html">Versi klasik</a></div>
   <div id="notice" role="status"></div>
   <div class="controls" role="group" aria-label="Gerakkan karakter">
-    <i></i><button data-move="up" aria-label="Maju">▲</button><i></i>
-    <button data-move="left" aria-label="Kiri">◀</button><button data-move="down" aria-label="Mundur">▼</button><button data-move="right" aria-label="Kanan">▶</button>
-    <span>WASD atau panah</span>
+    <button type="button" id="joystick" aria-label="Joystick gerak"><span id="stick"></span></button>
+    <span>Geser · WASD</span>
   </div>
   <section id="panel" aria-label="Interaksi">
     <h2 id="targetName">Jelajahi kos</h2>
@@ -70,7 +91,20 @@ canvas{display:block;width:100%;height:100%;touch-action:none}
     <button type="button" id="action" disabled>Belum ada tujuan</button>
   </section>
 </main>
+<dialog id="avatarDialog" aria-labelledby="avatarTitle">
+  <h2 id="avatarTitle">Edit karakter</h2>
+  <form id="avatarForm">
+    <div class="avatar-preview"><canvas id="avatarPreview" width="310" height="135" aria-label="Pratinjau karakter 3D"></canvas></div>
+    <label>Pakaian<select name="shirt"></select></label>
+    <label>Celana<select name="pants"></select></label>
+    <label>Warna kulit<select name="skin"></select></label>
+    <label>Rambut<select name="hair"></select></label>
+    <label>Aksesori<select name="accessory"></select></label>
+    <p id="avatarError" role="status"></p>
+    <div class="avatar-buttons"><a class="classic-link" href="klasik.html">Versi klasik</a><button type="button" id="cancelAvatar">Batal</button><button type="submit">Simpan</button></div>
+  </form>
+</dialog>
 <script src="three-r160.min.js"></script>
-<script src="kos-tycoon-live.js"></script>
+<script src="kos-tycoon-studio.js"></script>
 </body>
 </html>
