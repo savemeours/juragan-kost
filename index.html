@@ -661,19 +661,20 @@ a.mbtn{text-decoration:none}
 ::-webkit-scrollbar-track{background:transparent}
 </style>
 <style>
-.hero #kosViewport { position:absolute; inset:0; visibility:hidden; }
+.hero #kosViewport { position:absolute; inset:0; }
+.bg, .screen-bg { background:var(--kos-backdrop, none) center / cover no-repeat; }
+.screen-bg { filter:blur(3.5px) saturate(1.12); }
+.photo img { width:100%; height:100%; object-fit:cover; display:block; }
 .hero.kos-3d-ready #kosViewport { visibility:visible; }
 .hero #kosViewport canvas { display:block; width:100%; height:100%; cursor:grab; touch-action:pan-y; }
 .hero #kosViewport canvas:active { cursor:grabbing; }
-.hero.kos-3d-ready { aspect-ratio: 2.18; min-height: 225px; }
-.hero.kos-3d-ready #sceneHero, .hero.kos-3d-ready #sceneAnim { visibility:hidden; }
-.hero.kos-3d-ready #sceneHero { position:absolute; inset:0; }
+.hero { aspect-ratio: 2.18; min-height: 225px; }
 .hero.kos-3d-ready .hero-grad { pointer-events:none; }
 .orbit-controls { display:none; position:absolute; z-index:4; left:12px; bottom:12px; gap:5px; }
 .kos-3d-ready .orbit-controls { display:flex; }
 .orbit-controls button { min-width:39px; min-height:39px; cursor:pointer; border:1px solid #ffffff9c; border-radius:10px; color:#fff; background:#192c44e8; font:800 18px/1 var(--font); }
 .orbit-controls button:focus-visible { outline:3px solid #ffc65f; outline-offset:2px; }
-@media (max-width:520px) { .hero.kos-3d-ready { aspect-ratio:1.55; } }
+@media (max-width:520px) { .hero { aspect-ratio:1.55; } }
 </style>
 <style>#scrLeaderboard #btnLbRefresh { display:none; }</style>
 </head>
@@ -817,12 +818,12 @@ a.mbtn{text-decoration:none}
 
 </svg>
 
-<div class="bg"><svg id="sceneBg" viewBox="0 0 800 240" preserveAspectRatio="xMidYMid slice"></svg></div>
+<div class="bg"></div>
 <div class="bg-veil"></div>
 
 <!-- ================= SPLASH ================= -->
 <div class="screen" id="scrSplash">
-  <div class="screen-bg"><svg class="scene-splash" viewBox="0 0 800 240" preserveAspectRatio="xMidYMid slice"></svg></div>
+  <div class="screen-bg"></div>
   <div class="screen-veil"></div>
   <div class="screen-inner">
     <svg class="logo-svg" viewBox="0 0 340 132"><use href="#logo-mark"/></svg>
@@ -834,7 +835,7 @@ a.mbtn{text-decoration:none}
 
 <!-- ================= MAIN MENU ================= -->
 <div class="screen" id="scrMenu">
-  <div class="screen-bg"><svg class="scene-splash" viewBox="0 0 800 240" preserveAspectRatio="xMidYMid slice"></svg></div>
+  <div class="screen-bg"></div>
   <div class="screen-veil"></div>
   <div class="screen-inner">
     <svg class="logo-svg small" viewBox="0 0 340 132"><use href="#logo-mark"/></svg>
@@ -854,7 +855,7 @@ a.mbtn{text-decoration:none}
 
 <!-- ================= MENU DALAM GAME (☰) ================= -->
 <div class="screen" id="scrPause">
-  <div class="screen-bg"><svg class="scene-splash" viewBox="0 0 800 240" preserveAspectRatio="xMidYMid slice"></svg></div>
+  <div class="screen-bg"></div>
   <div class="screen-veil"></div>
   <div class="screen-inner">
     <div class="modal">
@@ -873,7 +874,7 @@ a.mbtn{text-decoration:none}
 
 <!-- ================= SETTINGS ================= -->
 <div class="screen" id="scrSettings">
-  <div class="screen-bg"><svg class="scene-splash" viewBox="0 0 800 240" preserveAspectRatio="xMidYMid slice"></svg></div>
+  <div class="screen-bg"></div>
   <div class="screen-veil"></div>
   <div class="screen-inner">
     <div class="modal">
@@ -946,7 +947,7 @@ a.mbtn{text-decoration:none}
 
 <!-- ================= ABOUT ================= -->
 <div class="screen" id="scrAbout">
-  <div class="screen-bg"><svg class="scene-splash" viewBox="0 0 800 240" preserveAspectRatio="xMidYMid slice"></svg></div>
+  <div class="screen-bg"></div>
   <div class="screen-veil"></div>
   <div class="screen-inner">
     <div class="modal">
@@ -972,7 +973,7 @@ a.mbtn{text-decoration:none}
 
 <!-- ================= PAPAN PERINGKAT ================= -->
 <div class="screen" id="scrLeaderboard">
-  <div class="screen-bg"><svg class="scene-splash" viewBox="0 0 800 240" preserveAspectRatio="xMidYMid slice"></svg></div>
+  <div class="screen-bg"></div>
   <div class="screen-veil"></div>
   <div class="screen-inner">
     <div class="modal lb-modal">
@@ -991,7 +992,7 @@ a.mbtn{text-decoration:none}
 
 <!-- ================= PROFIL ================= -->
 <div class="screen" id="scrProfile">
-  <div class="screen-bg"><svg class="scene-splash" viewBox="0 0 800 240" preserveAspectRatio="xMidYMid slice"></svg></div>
+  <div class="screen-bg"></div>
   <div class="screen-veil"></div>
   <div class="screen-inner">
     <div class="modal">
@@ -1025,7 +1026,7 @@ a.mbtn{text-decoration:none}
 
 <!-- ================= QUEST ================= -->
 <div class="screen" id="scrQuest">
-  <div class="screen-bg"><svg class="scene-splash" viewBox="0 0 800 240" preserveAspectRatio="xMidYMid slice"></svg></div>
+  <div class="screen-bg"></div>
   <div class="screen-veil"></div>
   <div class="screen-inner">
     <div class="modal">
@@ -1045,7 +1046,7 @@ a.mbtn{text-decoration:none}
 
 <!-- ================= PRESTASI & BAKAT ================= -->
 <div class="screen" id="scrPrestasi">
-  <div class="screen-bg"><svg class="scene-splash" viewBox="0 0 800 240" preserveAspectRatio="xMidYMid slice"></svg></div>
+  <div class="screen-bg"></div>
   <div class="screen-veil"></div>
   <div class="screen-inner">
     <div class="modal">
@@ -1063,7 +1064,7 @@ a.mbtn{text-decoration:none}
 
 <!-- ================= PENGUMUMAN / LOG UPDATE ================= -->
 <div class="screen" id="scrNews">
-  <div class="screen-bg"><svg class="scene-splash" viewBox="0 0 800 240" preserveAspectRatio="xMidYMid slice"></svg></div>
+  <div class="screen-bg"></div>
   <div class="screen-veil"></div>
   <div class="screen-inner">
     <div class="modal">
@@ -1077,7 +1078,7 @@ a.mbtn{text-decoration:none}
 
 <!-- ================= PAKET EKSPANSI ================= -->
 <div class="screen" id="scrPack">
-  <div class="screen-bg"><svg class="scene-splash" viewBox="0 0 800 240" preserveAspectRatio="xMidYMid slice"></svg></div>
+  <div class="screen-bg"></div>
   <div class="screen-veil"></div>
   <div class="screen-inner">
     <div class="modal">
@@ -1121,7 +1122,7 @@ a.mbtn{text-decoration:none}
 
 <!-- ================= TOKO ================= -->
 <div class="screen" id="scrShop">
-  <div class="screen-bg"><svg class="scene-splash" viewBox="0 0 800 240" preserveAspectRatio="xMidYMid slice"></svg></div>
+  <div class="screen-bg"></div>
   <div class="screen-veil"></div>
   <div class="screen-inner">
     <div class="modal">
@@ -1137,7 +1138,7 @@ a.mbtn{text-decoration:none}
 
 <!-- ================= GANTI NAMA ================= -->
 <div class="screen" id="scrRename">
-  <div class="screen-bg"><svg class="scene-splash" viewBox="0 0 800 240" preserveAspectRatio="xMidYMid slice"></svg></div>
+  <div class="screen-bg"></div>
   <div class="screen-veil"></div>
   <div class="screen-inner">
     <div class="modal">
@@ -1186,8 +1187,8 @@ a.mbtn{text-decoration:none}
             <button type="button" data-orbit="1" aria-label="Putar gedung ke kanan">↷</button>
             <button type="button" data-orbit="0" aria-label="Kembalikan sudut pandang awal">⌂</button>
           </div>
-          <svg id="sceneHero" viewBox="0 0 800 240" preserveAspectRatio="xMidYMid meet"></svg>
-          <svg id="sceneAnim" class="hero-anim" viewBox="0 0 800 240" preserveAspectRatio="xMidYMid meet" aria-hidden="true"></svg>
+          
+          
           <div class="hero-grad"></div>
           <div class="hero-hud l">
             <div class="hud-wallet"><span class="cur">Rp</span><span id="money">0</span></div>
@@ -1278,7 +1279,7 @@ a.mbtn{text-decoration:none}
 <div id="fx"></div>
 
 <script src="three-r160.min.js"></script>
-<script src="kos-scene.js"></script>
+<script src="kos-scene-all.js"></script>
 <script>
 /* =========================================================
    JURAGAN KOS v2 — simulator kos-kosan
@@ -1645,107 +1646,7 @@ function chibiSVG(key, cx, feetY){
   return s;
 }
 
-function roomSVG(lvl, key){
-  let s = '';
 
-  /* ---- kamar belum direnovasi: kosong, ada tangga & kaleng cat ---- */
-  if(lvl <= 0){
-    s += `<rect width="100" height="82" fill="#e9e2d6"/>`;
-    s += `<rect y="58" width="100" height="24" fill="#d8cdba"/>`;
-    s += `<rect y="58" width="100" height="1.6" fill="#efe6d6"/>`;
-    s += `<g stroke="#c9bda7" stroke-width=".5" opacity=".8"><path d="M0 66 H100"/><path d="M0 73 H100"/><path d="M0 79 H100"/></g>`;
-    // jendela kotor
-    s += `<rect x="6" y="8" width="36" height="30" rx="3" fill="#d6cbb8"/>`;
-    s += `<rect x="8.5" y="10.5" width="31" height="25" rx="2" fill="#b9cfdd"/>`;
-    s += `<path d="M24 10.5 V35.5 M8.5 23 H39.5" stroke="#d6cbb8" stroke-width="1.7"/>`;
-    s += `<path d="M9 33 L22 11 h6 L9 35z" fill="#ffffff" opacity=".35"/>`;
-    // retak dinding
-    s += `<g stroke="#cfc3ae" stroke-width=".9" fill="none" opacity=".9"><path d="M52 20 l4 5 l-3 5 l4 6"/><path d="M74 14 l-3 6 l4 4"/></g>`;
-    // tangga
-    s += `<g stroke="#c79a63" stroke-width="2.6" stroke-linecap="round">
-      <path d="M62 70 L74 26"/><path d="M74 70 L86 26"/>
-      <path d="M64.6 62 H76.6"/><path d="M67.2 54 H79.2"/><path d="M69.8 46 H81.8"/><path d="M72.4 38 H84.4"/><path d="M75 30 H87"/>
-    </g>`;
-    // kaleng cat + kuas
-    s += `<rect x="14" y="58" width="14" height="13" rx="2" fill="#e8eef7" stroke="#c3d1e4" stroke-width="1"/>`;
-    s += `<rect x="14" y="58" width="14" height="3.4" rx="1.6" fill="#2f80ed"/>`;
-    s += `<path d="M16 62 q6 3 10 0" stroke="#2f80ed" stroke-width="1.6" fill="none"/>`;
-    s += `<rect x="31" y="48" width="2" height="18" rx="1" fill="#b08b58"/>`;
-    s += `<rect x="29" y="44" width="6" height="6" rx="1.6" fill="#7fb3e8"/>`;
-    // debu
-    s += `<g fill="#ffffff" opacity=".5"><circle cx="42" cy="52" r="1.4"/><circle cx="88" cy="46" r="1.2"/><circle cx="24" cy="40" r="1"/></g>`;
-    return `<svg viewBox="0 0 100 82" preserveAspectRatio="xMidYMid slice">${s}</svg>`;
-  }
-
-  s += `<rect width="100" height="82" fill="url(#roomWall)"/>`;
-  s += `<rect y="58" width="100" height="24" fill="url(#woodFloor)"/>`;
-  s += `<rect y="58" width="100" height="1.6" fill="#eeddc2"/>`;
-  s += `<g stroke="#d9c2a0" stroke-width=".5" opacity=".7"><path d="M0 66 H100"/><path d="M0 73 H100"/><path d="M0 79 H100"/></g>`;
-
-  // jendela + langit
-  s += `<rect x="6" y="8" width="36" height="30" rx="3" fill="#f4e7d2"/>`;
-  s += `<rect x="8.5" y="10.5" width="31" height="25" rx="2" fill="#bfe0f7"/>`;
-  s += `<path d="M8.5 26 L21 12 h6 L8.5 32z" fill="#ffffff" opacity=".5"/>`;
-  s += `<circle cx="33" cy="17" r="4" fill="#fff4cf" opacity=".9"/>`;
-  s += `<path d="M24 10.5 V35.5 M8.5 23 H39.5" stroke="#f4e7d2" stroke-width="1.7"/>`;
-  s += `<rect x="3" y="4" width="42" height="3" rx="1.5" fill="#d8bf9c"/>`;
-  // gorden
-  s += `<path d="M8.5 10.5 q6 8 3 25 h-3z" fill="#ffd9e2" opacity=".75"/>`;
-  s += `<path d="M39.5 10.5 q-6 8 -3 25 h3z" fill="#ffd9e2" opacity=".75"/>`;
-
-  // lantai / karpet
-  s += `<ellipse cx="46" cy="70" rx="21" ry="5.5" fill="#ffd9e2" opacity=".8"/>`;
-  s += `<ellipse cx="46" cy="70" rx="14" ry="3.4" fill="#ffc2d2" opacity=".7"/>`;
-
-  // meja + lampu
-  s += `<rect x="4" y="47" width="27" height="4" rx="1.6" fill="#c9a06a"/>`;
-  s += `<rect x="7" y="51" width="3" height="8" fill="#b08b58"/>`;
-  s += `<rect x="25" y="51" width="3" height="8" fill="#b08b58"/>`;
-  s += `<rect x="12" y="38" width="2" height="9" fill="#8a94a8"/>`;
-  s += `<path d="M9 38 h8 l-2.2 -5.4 h-3.6 z" fill="#ffd873"/>`;
-  s += `<ellipse cx="13" cy="40" rx="9" ry="4" fill="#ffe9a8" opacity=".45"/>`;
-  s += `<rect x="18" y="42" width="7" height="5" rx="1" fill="#e8eef7" stroke="#cdd9ec" stroke-width=".6"/>`;
-
-  // tempat tidur
-  s += `<rect x="56" y="33" width="7" height="29" rx="2" fill="#c9a06a"/>`;
-  s += `<rect x="62" y="43" width="36" height="19" rx="3" fill="#e8eef7"/>`;
-  s += `<rect x="62" y="43" width="36" height="9" rx="3" fill="url(#bedSheet)"/>`;
-  s += `<rect x="64" y="41" width="13" height="8" rx="3" fill="#ffffff" stroke="#dbe6f5" stroke-width=".7"/>`;
-  s += `<rect x="62" y="51" width="36" height="11" rx="2.5" fill="#7fb3e8" opacity=".9"/>`;
-  s += `<path d="M62 54 H98 M62 58 H98" stroke="#6aa3dd" stroke-width=".9" opacity=".7"/>`;
-
-  // poster (lv2+)
-  if(lvl >= 2){
-    s += `<rect x="47" y="12" width="12" height="15" rx="1.5" fill="#ffffff" stroke="#d9c2a0"/>`;
-    s += `<path d="M49 24 l4 -6 l3 3 l2 -2 v3.5 z" fill="#8fcf9f"/>`;
-    s += `<circle cx="50" cy="16.5" r="1.6" fill="#ffd166"/>`;
-  }
-  // tanaman (lv3+)
-  if(lvl >= 3){
-    s += `<path d="M2 58 h11 l-1.6 -9 h-7.8 z" fill="#c9805a"/>`;
-    s += `<g fill="#3f8f5f"><path d="M7.5 49 q-8 -4 -9 -12 q9 3 10 11z"/><path d="M7.5 49 q8 -4 9 -12 q-9 3 -10 11z"/><path d="M7.5 47 q-4 -9 0 -14 q4 6 0 14z" fill="#58ab74"/></g>`;
-  }
-  // AC (lv4+)
-  if(lvl >= 4){
-    s += `<rect x="62" y="11" width="27" height="9" rx="2.5" fill="#ffffff" stroke="#cdd9ec" stroke-width=".9"/>`;
-    s += `<path d="M65 17.5 h21" stroke="#c3d1e4" stroke-width="1.1"/>`;
-    s += `<rect x="62" y="20" width="27" height="2" rx="1" fill="#e3ebf7"/>`;
-    s += `<g stroke="#9fd4f2" stroke-width="1.2" stroke-linecap="round" opacity=".8"><path d="M70 24 q2 3 0 5"/><path d="M78 24 q-2 3 0 5"/></g>`;
-  }
-  // TV (lv5+)
-  if(lvl >= 5){
-    s += `<rect x="63" y="26" width="26" height="15" rx="2" fill="#2a3346"/>`;
-    s += `<rect x="65" y="28" width="22" height="11" rx="1" fill="#7fd3ff" opacity=".7"/>`;
-    s += `<rect x="72" y="41" width="8" height="2.5" rx="1" fill="#4a5570"/>`;
-  }
-  // bingkai emas (lv6)
-  if(lvl >= 6){
-    s += `<rect x="0" y="56" width="100" height="2.4" fill="#f5a623" opacity=".85"/>`;
-    s += `<rect x="0" y="0" width="100" height="2.4" fill="#f5a623" opacity=".5"/>`;
-  }
-  if(key) s += chibiSVG(key, 47, 70);
-  return `<svg viewBox="0 0 100 82" preserveAspectRatio="xMidYMid slice">${s}</svg>`;
-}
 
 /* ---------- state ---------- */
 function makeTenant(key){
@@ -1994,405 +1895,6 @@ function dayPhase(h){
 }
 const PHASE_LABEL = {pagi:'🌅 Pagi', siang:'☀️ Siang', sore:'🌇 Sore', malam:'🌙 Malam'};
 
-function sceneSVG(){
-  const floors = floorCount();
-  const bc = clamp(S.bclass | 0, 0, CLASSES.length - 1);
-  const flatRoof = bc >= 2;
-  const wallGradId = bc === 2 ? 'wallGrad2' : bc === 1 ? 'wallGrad1' : 'wallGrad';
-  const roofGradId = bc === 2 ? 'roofGrad2' : bc === 1 ? 'roofGrad1' : 'roofGrad';
-  const GY = 200, GH = 52, ROOF = 26;
-  const FH = floors >= 4 ? 26 : 30;
-  const WIN_W = 42, WIN_H = 18, WIN_UH = 16, WIN_X0 = 167, STEP = 84.8;
-  const WX = 140, WR = 660, WALLH = GH + FH * (floors - 1);
-  const topY = GY - WALLH;
-  const roofTop = topY - ROOF;
-  const roofLine = flatRoof ? topY - 16 : roofTop;
-  const fTop = fi => fi === 0 ? GY - GH : GY - GH - FH * fi;
-  const wY = fi => fi === 0 ? GY - GH + 9 : fTop(fi) + (FH - WIN_UH) / 2;
-  const wH = fi => fi === 0 ? WIN_H : WIN_UH;
-  const wX = c => WIN_X0 + c * STEP;
-
-  const A = S.amenities || {};
-  const lvWifi = A.wifi | 0, lvAc = A.ac | 0, lvDapur = A.dapur | 0;
-  const lvParkir = A.parkir | 0, lvAman = A.keamanan | 0;
-  const lvKolam = A.kolam | 0, lvLift = A.lift | 0, lvRooftop = A.rooftop | 0;
-
-  let s = '';
-
-  /* ---- langit (mengikuti waktu nyata) ---- */
-  const phase = dayPhase();
-  const skyId = {pagi:'skyDawn', siang:'skyGrad', sore:'skyDusk', malam:'skyNight'}[phase] || 'skyGrad';
-  s += `<rect width="800" height="240" fill="url(#${skyId})"/>`;
-
-  if(phase === 'malam'){
-    const stars = [[54,26,1.5],[120,54,1.1],[190,20,1.6],[250,60,1.1],[320,34,1.3],[372,64,1],[438,24,1.4],[500,58,1.1],[560,30,1.5],[624,52,1.1],[690,98,1.2],[748,30,1.5],[92,92,1.2],[300,92,1.1],[540,92,1.3]];
-    s += `<g fill="#ffffff">`;
-    stars.forEach((st,i)=>{ s += `<circle class="sc-star" cx="${st[0]}" cy="${st[1]}" r="${st[2]}" opacity=".8" style="animation-delay:${(i*0.37).toFixed(2)}s"/>`; });
-    s += `</g>`;
-    /* bulan */
-    s += `<circle cx="694" cy="46" r="62" fill="url(#moonGrad)"/>`;
-    s += `<circle cx="694" cy="46" r="22" fill="#eef3ff"/>`;
-    s += `<g fill="#cdd8f5" opacity=".55"><circle cx="688" cy="42" r="3.4"/><circle cx="700" cy="52" r="4.2"/><circle cx="701" cy="38" r="2.2"/><circle cx="686" cy="53" r="2"/></g>`;
-  }else{
-    /* matahari: posisi & ukuran berbeda tiap fase */
-    const sun = phase === 'pagi' ? {x:150, y:66, r:72}
-              : phase === 'sore' ? {x:668, y:150, r:86}
-              : {x:700, y:40, r:104};
-    s += `<circle cx="${sun.x}" cy="${sun.y}" r="${sun.r}" fill="url(#sunGrad)"/>`;
-    s += `<circle cx="${sun.x}" cy="${sun.y}" r="20" fill="#fffdf0"/>`;
-    /* awan */
-    const cl = phase === 'sore' ? 'rgba(255,216,174,.9)' : 'rgba(255,255,255,.9)';
-    s += `<g fill="${cl}"><ellipse cx="96" cy="30" rx="56" ry="12"/><ellipse cx="146" cy="22" rx="32" ry="8"/></g>`;
-    s += `<g fill="${cl}" opacity=".6"><ellipse cx="268" cy="16" rx="42" ry="8"/></g>`;
-    s += `<g fill="${cl}" opacity=".5"><ellipse cx="612" cy="24" rx="36" ry="7"/></g>`;
-  }
-
-  /* ---- gedung latar ---- */
-  s += `<g fill="#a9c2de" opacity=".9">
-    <rect x="-4" y="138" width="52" height="62"/><rect x="54" y="124" width="42" height="76"/><rect x="100" y="144" width="34" height="56"/>
-    <rect x="702" y="132" width="44" height="68"/><rect x="750" y="116" width="54" height="84"/>
-  </g>`;
-  s += `<g fill="#ffffff" opacity=".6">
-    <rect x="8" y="146" width="6" height="7"/><rect x="22" y="146" width="6" height="7"/><rect x="8" y="162" width="6" height="7"/>
-    <rect x="64" y="132" width="6" height="7"/><rect x="78" y="132" width="6" height="7"/><rect x="64" y="148" width="6" height="7"/>
-    <rect x="714" y="140" width="6" height="7"/><rect x="728" y="140" width="6" height="7"/>
-    <rect x="762" y="124" width="6" height="7"/><rect x="776" y="124" width="6" height="7"/><rect x="762" y="140" width="6" height="7"/>
-  </g>`;
-
-  /* ---- trotoar & jalan ---- */
-  s += `<rect x="0" y="${GY}" width="800" height="10" fill="#eee4d5"/>`;
-  s += `<rect x="0" y="${GY}" width="800" height="3" fill="#f7efe4"/>`;
-  s += `<rect x="0" y="${GY+10}" width="800" height="30" fill="url(#roadGrad)"/>`;
-  s += `<rect x="0" y="${GY+10}" width="800" height="2" fill="#e6dccd" opacity=".85"/>`;
-  s += `<g fill="#f6efe4" opacity=".75">`;
-  for(let x = 14; x < 800; x += 92) s += `<rect x="${x}" y="${GY+24}" width="44" height="3" rx="1.5"/>`;
-  s += `</g>`;
-
-  /* ---- pohon ---- */
-  s += `<g>
-    <path d="M104 ${GY} q-5 -28 1 -46" stroke="#8a6440" stroke-width="7" fill="none" stroke-linecap="round"/>
-    <g fill="#3f8f5f">
-      <path d="M106 ${GY-44} q-26 -9 -39 6 q23 3 39 -1z"/>
-      <path d="M106 ${GY-44} q23 -12 41 0 q-23 7 -41 2z"/>
-      <path d="M106 ${GY-46} q-14 -18 -3 -30 q8 17 6 30z"/>
-      <path d="M106 ${GY-44} q18 -15 33 -11 q-13 14 -33 13z"/>
-    </g>
-    <g fill="#63bb86" opacity=".85"><path d="M106 ${GY-48} q-12 -11 -6 -21 q7 10 6 21z"/><path d="M108 ${GY-46} q12 -10 23 -7 q-11 10 -23 7z"/></g>
-    <circle cx="106" cy="${GY-45}" r="4" fill="#5cbf82"/>
-  </g>`;
-
-  /* ---- bayangan ---- */
-  s += `<ellipse cx="400" cy="${GY+1}" rx="268" ry="8" fill="#8a6f4d" opacity=".2"/>`;
-
-  /* ---- dinding ---- */
-  s += `<rect x="${WX}" y="${topY}" width="${WR-WX}" height="${WALLH}" fill="url(#${wallGradId})"/>`;
-  s += `<rect x="${WX}" y="${topY}" width="${WR-WX}" height="${WALLH}" fill="url(#wallShade)"/>`;
-  s += `<rect x="${WX}" y="${topY}" width="${WR-WX}" height="${WALLH}" fill="url(#sunHit)"/>`;
-  for(let fi = 1; fi < floors; fi++){
-    const bandCol = bc === 1 ? '#c9a34e' : bc === 2 ? '#9fb2d0' : '#e3cba6';
-    s += `<rect x="${WX}" y="${fTop(fi)-3}" width="${WR-WX}" height="3" fill="${bandCol}" opacity=".95"/>`;
-    s += `<rect x="${WX}" y="${fTop(fi)}" width="${WR-WX}" height="1.6" fill="#ffffff" opacity=".5"/>`;
-  }
-  s += `<rect x="${WX}" y="${GY-4}" width="${WR-WX}" height="4" fill="${bc === 2 ? '#7d8dab' : '#dcc6a4'}" opacity=".8"/>`;
-
-  /* ---- atap ---- */
-  if(flatRoof){
-    // Apartemen: atap datar (parapet slab) bergaya modern.
-    s += `<rect x="${WX-22}" y="${roofLine}" width="${WR-WX+44}" height="16" rx="3" fill="url(#${roofGradId})"/>`;
-    s += `<rect x="${WX-22}" y="${roofLine}" width="${WR-WX+44}" height="3.4" fill="#5a7196" opacity=".9"/>`;
-    s += `<rect x="${WX-22}" y="${topY-3}" width="${WR-WX+44}" height="3" fill="#1c2637" opacity=".45"/>`;
-  }else{
-    s += `<path d="M${WX-20} ${topY} L${WR+20} ${topY} L${WR-24} ${roofTop} L${WX+24} ${roofTop} Z" fill="url(#${roofGradId})"/>`;
-    s += `<g stroke="#4a1e19" stroke-width=".9" opacity=".28">`;
-    for(let i = 1; i <= 3; i++){
-      const t = i / 4;
-      const lx = (WX - 20) + ((WX + 24) - (WX - 20)) * t;
-      const rx = (WR + 20) + ((WR - 24) - (WR + 20)) * t;
-      const yy = topY + (roofTop - topY) * t;
-      s += `<path d="M${lx} ${yy} L${rx} ${yy}"/>`;
-    }
-    s += `</g>`;
-    s += `<path d="M${WX-20} ${topY} L${WR+20} ${topY} L${WR+20} ${topY-5} L${WX-20} ${topY-5} Z" fill="#4d211c"/>`;
-    s += `<rect x="${WX-20}" y="${topY-5}" width="${WR-WX+40}" height="1.8" fill="#c96b4f" opacity=".5"/>`;
-  }
-
-  /* ---- papan nama ---- */
-  const nm = esc(S.kosName || 'Kos');
-  const signW = clamp(34 + nm.length * 11, 92, 168), signH = 19;
-  const sx = 400 - signW / 2, sy = roofLine - signH - 6;
-  const fs = nm.length > 12 ? 11 : (nm.length > 8 ? 13 : 15);
-  s += `<rect x="${sx+12}" y="${sy+signH}" width="4" height="8" fill="#3d1a16"/>`;
-  s += `<rect x="${sx+signW-16}" y="${sy+signH}" width="4" height="8" fill="#3d1a16"/>`;
-  s += `<ellipse cx="400" cy="${sy+signH+3}" rx="78" ry="14" fill="url(#glowWarm)" opacity=".4"/>`;
-  s += `<rect x="${sx}" y="${sy}" width="${signW}" height="${signH}" rx="6" fill="#241c2c" stroke="#ffcf5c" stroke-width="1.5"/>`;
-  s += `<rect x="${sx+4}" y="${sy+3}" width="${signW-8}" height="${signH-6}" rx="3" fill="#ffcf5c" opacity=".1"/>`;
-  s += `<text x="400" y="${sy+signH/2+5}" text-anchor="middle" font-family="'Baloo 2',Nunito,sans-serif" font-size="${fs}" font-weight="800" fill="#ffcf5c">${nm}</text>`;
-
-  /* ---- tangki air ---- */
-  s += `<g>
-    <rect x="505" y="${roofLine+2}" width="26" height="20" rx="4" fill="#cfd6e0"/>
-    <ellipse cx="518" cy="${roofLine+2}" rx="13" ry="4" fill="#e6ecf5"/>
-    <path d="M507 ${roofLine+8} h22 M507 ${roofLine+15} h22" stroke="#aab6c8" stroke-width="1.2"/>
-    <rect x="510" y="${topY-8}" width="4" height="10" fill="#8a94a8"/>
-    <rect x="522" y="${topY-8}" width="4" height="10" fill="#8a94a8"/>
-  </g>`;
-
-  /* ---- antena wifi ---- */
-  if(lvWifi > 0){
-    const ax = 470, tip = roofLine + 4;
-    s += `<rect x="${ax}" y="${tip}" width="3" height="${topY - tip}" fill="#8a94a8"/>`;
-    s += `<circle cx="${ax+1.5}" cy="${tip-1}" r="3" fill="#0fa958"/>`;
-    const arcs = Math.min(3, Math.ceil(lvWifi / 2));
-    for(let i = 0; i < arcs; i++){
-      const r = 9 + i * 7;
-      s += `<path d="M${ax+1.5-r} ${tip-3} q${r} ${-r*0.8} ${2*r} 0" stroke="#0fa958" stroke-width="2" fill="none" stroke-linecap="round" opacity="${(0.95 - i*0.22).toFixed(2)}"/>`;
-    }
-  }
-
-  /* ---- cerobong dapur ---- */
-  if(lvDapur > 0){
-    const px = 205;
-    s += `<rect x="${px}" y="${roofLine+4}" width="11" height="${topY-roofLine-4}" fill="#cfd6e0" stroke="#b9c8dd" stroke-width=".8"/>`;
-    s += `<rect x="${px-3}" y="${roofLine}" width="17" height="5" rx="2" fill="#aab6c8"/>`;
-    s += `<g fill="#ffffff" opacity=".9"><circle cx="${px+5}" cy="${roofLine-5}" r="4.4"/><circle cx="${px+14}" cy="${roofLine-14}" r="6"/><circle cx="${px+1}" cy="${roofLine-15}" r="3.4"/></g>`;
-  }
-
-  /* ---- jendela: 1 jendela = 1 kamar ---- */
-  let acLeft = Math.min(6, lvAc + 1);
-  for(let fi = 0; fi < floors; fi++){
-    const y = wY(fi), hh = wH(fi);
-    for(let c = 0; c < 6; c++){
-      const idx = fi * 6 + c;
-      const x = wX(c);
-      const room = idx < S.unlocked ? S.rooms[idx] : null;
-      const occ = !!(room && room.tenant);
-
-      s += `<rect x="${x-3.5}" y="${y-3.5}" width="${WIN_W+7}" height="${hh+7}" rx="3" fill="#f6e9d4" stroke="#dcc7a6" stroke-width=".8"/>`;
-      s += `<rect x="${x}" y="${y}" width="${WIN_W}" height="${hh}" rx="1.6" fill="${occ ? 'url(#glassWarm)' : '#b3cde6'}"/>`;
-
-      if(occ){
-        const cx = x + WIN_W / 2;
-        const base = y + hh;
-        s += `<g fill="#9a6224" opacity=".62">
-          <circle cx="${cx}" cy="${base-9}" r="3.6"/>
-          <path d="M${cx-7} ${base} q0 -7 7 -7 q7 0 7 7 z"/>
-        </g>`;
-        s += `<path d="M${x} ${y} q4 6 1.6 ${hh} h-1.6z" fill="#ffe4b8" opacity=".7"/>`;
-        s += `<path d="M${x+WIN_W} ${y} q-4 6 -1.6 ${hh} h1.6z" fill="#ffe4b8" opacity=".7"/>`;
-      }else{
-        s += `<path d="M${x} ${y+hh-3} L${x+13} ${y+2} h4.5 L${x} ${y+hh-9}z" fill="#ffffff" opacity=".5"/>`;
-      }
-
-      s += `<path d="M${x+WIN_W/2} ${y} V${y+hh} M${x} ${y+hh/2} H${x+WIN_W}" stroke="#f6e9d4" stroke-width="1.3"/>`;
-      s += `<rect x="${x-4.5}" y="${y+hh+3.5}" width="${WIN_W+9}" height="2.6" rx="1.3" fill="#dcc6a4"/>`;
-
-      if(acLeft > 0){
-        acLeft--;
-        const ax = x + WIN_W + 8, ay = y + (hh - 7) / 2;
-        s += `<rect x="${ax}" y="${ay}" width="16" height="7" rx="2" fill="#ffffff" stroke="#c3d1e4" stroke-width=".7"/>`;
-        s += `<path d="M${ax+2} ${ay+4.4} h12" stroke="#c3d1e4" stroke-width=".8"/>`;
-        s += `<path d="M${ax+2} ${ay+7} q2 3 0 5" stroke="#9fd4f2" stroke-width="1.1" fill="none" stroke-linecap="round" opacity=".85"/>`;
-      }
-    }
-  }
-
-  /* ---- hiasan khas kelas bangunan ---- */
-  const fBot = fi => fi === 0 ? GY : fTop(fi) + FH;
-  if(bc === 1){
-    // Kos Eksklusif: balkon + pagar emas tiap lantai.
-    for(let fi = 0; fi < floors; fi++){
-      const by = fBot(fi) - 5;
-      s += `<rect x="${WX - 6}" y="${by}" width="${WR-WX+12}" height="3.4" rx="1.7" fill="#b98e33"/>`;
-      s += `<g stroke="#d9b25c" stroke-width="1.2" opacity=".95">`;
-      for(let x = WX + 4; x < WR; x += 14) s += `<path d="M${x} ${by} V${by-6}"/>`;
-      s += `</g>`;
-      s += `<rect x="${WX - 6}" y="${by-6}" width="${WR-WX+12}" height="1.6" rx=".8" fill="#ecd28b"/>`;
-    }
-  }else if(bc === 2){
-    // Apartemen: garis mullion kaca vertikal + kilau lembut.
-    s += `<g stroke="#7f96bb" stroke-width="1.6" opacity=".5">`;
-    for(let c = 0; c < 5; c++){
-      const x = WIN_X0 + c*STEP + WIN_W + (STEP - WIN_W) / 2;
-      s += `<path d="M${x} ${topY+2} V${GY}"/>`;
-    }
-    s += `</g>`;
-    s += `<rect x="${WR-34}" y="${topY}" width="12" height="${WALLH}" fill="#ffffff" opacity=".1"/>`;
-  }
-
-  /* ---- pintu masuk (di antara jendela tengah) ---- */
-  const dW = 34, dX = 400 - dW / 2, dY = GY - 46, dH = 46;
-  s += `<ellipse cx="400" cy="${GY+1}" rx="46" ry="7" fill="url(#glowWarm)" opacity=".9"/>`;
-  s += `<rect x="${dX-4.5}" y="${dY-4.5}" width="${dW+9}" height="${dH+4.5}" rx="2.5" fill="#e8d6ba"/>`;
-  s += `<rect x="${dX}" y="${dY}" width="${dW}" height="${dH}" rx="2" fill="#8a5a34"/>`;
-  s += `<rect x="${dX+4}" y="${dY+4}" width="${dW-8}" height="${Math.max(5, dH-12)}" rx="1.6" fill="url(#glassWarm)"/>`;
-  s += `<path d="M${dX+dW/2} ${dY+4} V${dY+4+Math.max(5, dH-12)}" stroke="#8a5a34" stroke-width="1.3"/>`;
-  s += `<circle cx="${dX+dW-8}" cy="${GY-11}" r="1.8" fill="#ffcf5c"/>`;
-  s += `<path d="M${dX-5} ${dY-5} h${dW+10} l-5 -8 h-${dW} z" fill="#e08a4a"/>`;
-  s += `<path d="M${dX-5} ${dY-5} h${dW+10}" stroke="#ffb27a" stroke-width="1.3" opacity=".65"/>`;
-  s += `<rect x="${dX-7}" y="${GY-3}" width="${dW+14}" height="5" rx="2" fill="#cdbfae"/>`;
-
-  /* ---- taman depan ---- */
-  s += `<g fill="#3f8f5f">`;
-  for(let x = 152; x <= 366; x += 21) s += `<circle cx="${x}" cy="${GY-2}" r="6.2"/>`;
-  for(let x = 434; x <= 648; x += 21) s += `<circle cx="${x}" cy="${GY-2}" r="6.2"/>`;
-  s += `</g>`;
-  s += `<g fill="#63bb86" opacity=".9">`;
-  for(let x = 150; x <= 364; x += 21) s += `<circle cx="${x}" cy="${GY-5}" r="3"/>`;
-  for(let x = 432; x <= 646; x += 21) s += `<circle cx="${x}" cy="${GY-5}" r="3"/>`;
-  s += `</g>`;
-  s += `<g transform="translate(354 ${GY-2})"><path d="M0 0 h13 l-2 -9 h-9 z" fill="#b06a45"/><path d="M6.5 -9 q-8 -4 -9 -12 q9 3 10 11z" fill="#3f8f5f"/><path d="M6.5 -9 q8 -4 9 -12 q-9 3 -10 11z" fill="#63bb86"/></g>`;
-  s += `<g transform="translate(436 ${GY-2})"><path d="M0 0 h13 l-2 -9 h-9 z" fill="#b06a45"/><path d="M6.5 -9 q-8 -4 -9 -12 q9 3 10 11z" fill="#3f8f5f"/><path d="M6.5 -9 q8 -4 9 -12 q-9 3 -10 11z" fill="#63bb86"/></g>`;
-
-  /* ---- area parkir ---- */
-  if(lvParkir > 0){
-    s += `<rect x="662" y="${GY-46}" width="132" height="5" rx="2" fill="#e08a4a"/>`;
-    s += `<rect x="662" y="${GY-46}" width="132" height="1.6" rx=".8" fill="#ffb27a"/>`;
-    s += `<rect x="670" y="${GY-41}" width="4" height="41" fill="#c98a52"/>`;
-    s += `<rect x="782" y="${GY-41}" width="4" height="41" fill="#c98a52"/>`;
-    s += `<rect x="668" y="${GY-36}" width="18" height="18" rx="4" fill="#2f80ed"/>`;
-    s += `<text x="677" y="${GY-23}" text-anchor="middle" font-family="'Baloo 2',Nunito,sans-serif" font-size="13" font-weight="800" fill="#ffffff">P</text>`;
-  }
-
-  /* ---- mobil ---- */
-  s += `<g>
-    <ellipse cx="735" cy="${GY-1}" rx="52" ry="3.6" fill="#8a6f4d" opacity=".22"/>
-    <path d="M690 ${GY-8} q0 -9 10 -10 l10 -7 q5 -3 12 -3 h20 q7 0 11 3 l9 6 q11 1 11 11 z" fill="#e2664a"/>
-    <path d="M690 ${GY-8} q0 -9 10 -10 l10 -7 q5 -3 12 -3 h20 q7 0 11 3 l9 6 q11 1 11 11 z" fill="url(#wallShade)" opacity=".25"/>
-    <path d="M712 ${GY-18} l8 -6 q3 -2 8 -2 h14 q5 0 8 2 l7 6 z" fill="#bfe3f5"/>
-    <rect x="705" y="${GY-16}" width="72" height="6" rx="3" fill="#c74f36" opacity=".6"/>
-    <circle cx="712" cy="${GY-4}" r="7.5" fill="#2b2b36"/><circle cx="712" cy="${GY-4}" r="3" fill="#c9d2df"/>
-    <circle cx="762" cy="${GY-4}" r="7.5" fill="#2b2b36"/><circle cx="762" cy="${GY-4}" r="3" fill="#c9d2df"/>
-    <circle cx="775" cy="${GY-11}" r="2.6" fill="#ffe9a8"/>
-    <rect x="686" y="${GY-12}" width="5" height="4" rx="1" fill="#ff7a5c"/>
-  </g>`;
-
-  /* ---- pos keamanan + CCTV ---- */
-  if(lvAman > 0){
-    s += `<g>
-      <rect x="8" y="${GY-40}" width="68" height="40" fill="#f0e2c8"/>
-      <path d="M2 ${GY-40} H82 L74 ${GY-52} H10 Z" fill="#c96b4f"/>
-      <path d="M2 ${GY-40} H82" stroke="#ffb27a" stroke-width="1.3" opacity=".6"/>
-      <rect x="30" y="${GY-22}" width="16" height="22" fill="#8a5a34"/>
-      <rect x="56" y="${GY-30}" width="14" height="10" rx="1" fill="#ffe9a8"/>
-      <circle cx="79" cy="${GY-48}" r="4" fill="#ffd98a"/>
-      <circle cx="79" cy="${GY-48}" r="13" fill="url(#glowWarm)" opacity=".9"/>
-      <rect x="34" y="${GY-64}" width="4" height="12" fill="#3d3d3d"/>
-      <rect x="2" y="${GY-78}" width="70" height="15" rx="3" fill="#2f3a4d" stroke="#ffcf5c" stroke-width="1.2"/>
-      <text x="37" y="${GY-67.5}" text-anchor="middle" font-family="'Baloo 2',Nunito,sans-serif" font-size="9" font-weight="800" fill="#ffcf5c">POS SATPAM</text>
-    </g>`;
-    s += `<g transform="translate(${WX+12} ${topY+4})">
-      <rect x="0" y="0" width="3" height="8" fill="#8a94a8"/>
-      <rect x="-1" y="7" width="17" height="8" rx="2.6" fill="#eef4fd" stroke="#b9c8dd" stroke-width=".8"/>
-      <circle cx="2.5" cy="11" r="2.2" fill="#3b4d6d"/>
-      <path d="M14 9.5 l4 1.5 l-4 1.5z" fill="#b9c8dd"/>
-    </g>`;
-  }
-
-  /* ---- kolam renang (premium) ---- */
-  if(lvKolam > 0){
-    const px = 486, pw = 100, py = GY - 19, ph = 21;
-    s += `<g>
-      <ellipse cx="${px+pw/2}" cy="${GY+1}" rx="${pw/2+8}" ry="4" fill="#8a6f4d" opacity=".14"/>
-      <rect x="${px}" y="${py}" width="${pw}" height="${ph+2}" rx="8" fill="#ecdcbe"/>
-      <rect x="${px+5}" y="${py+4}" width="${pw-10}" height="${ph-3}" rx="5" fill="#5cb8e0"/>
-      <rect x="${px+5}" y="${py+4}" width="${pw-10}" height="${ph-3}" rx="5" fill="url(#sunHit)" opacity=".3"/>
-      <g stroke="#cdeefb" stroke-width="1.4" opacity=".95" stroke-linecap="round" fill="none">
-        <path d="M${px+14} ${py+9} q4 -2 8 0 q4 2 8 0"/>
-        <path d="M${px+30} ${py+15} q4 -2 8 0 q4 2 8 0"/>
-        <path d="M${px+50} ${py+9} q4 -2 8 0 q4 2 8 0"/>
-        <path d="M${px+64} ${py+15} q4 -2 8 0 q4 2 8 0"/>
-      </g>
-      <g stroke="#e7eef6" stroke-width="2" stroke-linecap="round"><path d="M${px+pw-16} ${py+3} V${py+ph+1}"/><path d="M${px+pw-9} ${py+3} V${py+ph+1}"/></g>
-      <path d="M${px+pw-16} ${py+8} h7 M${px+pw-16} ${py+14} h7" stroke="#e7eef6" stroke-width="1.6"/>
-    </g>`;
-  }
-
-  /* ---- lift (premium) ---- */
-  if(lvLift > 0){
-    s += `<g>
-      <rect x="160" y="${roofTop-21}" width="34" height="21" rx="3" fill="#dfe6ef" stroke="#b9c8dd" stroke-width="1"/>
-      <rect x="165" y="${roofTop-17}" width="24" height="9" rx="2" fill="#9fb2c9"/>
-      <text x="177" y="${roofTop-3}" text-anchor="middle" font-family="'Baloo 2',Nunito,sans-serif" font-size="7.5" font-weight="800" fill="#53627a">LIFT</text>
-    </g>`;
-  }
-
-  /* ---- rooftop cafe (premium) ---- */
-  if(lvRooftop > 0){
-    const rx0 = WR - 128, rx1 = WR - 16, ry = roofTop;
-    s += `<g>
-      <rect x="${rx0}" y="${ry-12}" width="${rx1-rx0}" height="12" fill="#f3e6cd" opacity=".95"/>
-      <g stroke="#b98e57" stroke-width="1.7" fill="none">
-        <path d="M${rx0} ${ry-12} H${rx1}"/>
-        <path d="M${rx0} ${ry-12} V${ry} M${rx0+22} ${ry-12} V${ry} M${rx0+44} ${ry-12} V${ry} M${rx0+66} ${ry-12} V${ry} M${rx0+88} ${ry-12} V${ry} M${rx1} ${ry-12} V${ry}"/>
-      </g>
-      <rect x="${rx0+80}" y="${ry-30}" width="2.6" height="19" fill="#8a6a45"/>
-      <path d="M${rx0+58} ${ry-30} Q${rx0+81} ${ry-45} ${rx0+104} ${ry-30} Z" fill="#e2664a"/>
-      <path d="M${rx0+58} ${ry-30} Q${rx0+81} ${ry-45} ${rx0+104} ${ry-30}" fill="none" stroke="#c74f36" stroke-width="1"/>
-      <path d="M${rx0+81} ${ry-42} V${ry-30}" stroke="#c74f36" stroke-width="1"/>
-      <ellipse cx="${rx0+28}" cy="${ry-15}" rx="9" ry="3.2" fill="#f7efe4" stroke="#d9c6a6" stroke-width=".8"/>
-      <rect x="${rx0+26.5}" y="${ry-15}" width="3" height="4" fill="#b98e57"/>
-      <rect x="${rx0+38}" y="${ry-18}" width="6" height="4" rx="1" fill="#c98a52"/>
-      <rect x="${rx0+13}" y="${ry-18}" width="6" height="4" rx="1" fill="#c98a52"/>
-    </g>`;
-  }
-
-  /* ---- kucing ---- */
-  s += `<g fill="#e08f52">
-    <ellipse cx="470" cy="${GY-7}" rx="6" ry="7"/>
-    <circle cx="470" cy="${GY-16}" r="4.4"/>
-    <path d="M466.2 ${GY-19} l-2 -4.4 l4.2 1.8z"/>
-    <path d="M473.8 ${GY-19} l2 -4.4 l-4.2 1.8z"/>
-    <path d="M475 ${GY-5} q6.5 -1 6.5 -7.5" stroke="#e08f52" stroke-width="2.4" fill="none" stroke-linecap="round"/>
-  </g>`;
-
-  return s;
-}
-
-/* =========================================================
-   LAPISAN ANIMASI (terpisah dari scene statis agar tidak
-   ter-reset saat kondisi gedung berubah)
-   ========================================================= */
-function sceneAnimSVG(){
-  const GY = 200;
-
-  /* pejalan kaki — base di x=0, digeser oleh animasi translateX */
-  const ped = (body, skin, hair) => {
-    const fy = 207;
-    return `<ellipse cx="0" cy="${fy}" rx="6" ry="1.8" fill="#000" opacity=".16"/>
-      <rect x="-3" y="${fy-9}" width="2.4" height="9" rx="1.2" fill="#2f3a4d"/>
-      <rect x="0.6" y="${fy-9}" width="2.4" height="9" rx="1.2" fill="#2f3a4d"/>
-      <path d="M-4.6 ${fy-9} q0 -8 4.6 -8 q4.6 0 4.6 8 z" fill="${body}"/>
-      <path d="M-4.6 ${fy-13} q0 -3 4.6 -3 q4.6 0 4.6 3" fill="#000" opacity=".12"/>
-      <circle cx="0" cy="${fy-21}" r="4.1" fill="${skin}"/>
-      <path d="M-4.1 ${fy-22} q0 -4.6 4.1 -4.6 q4.1 0 4.1 4.6 q-1.6 -2.3 -4.1 -2.3 q-2.5 0 -4.1 2.3z" fill="${hair}"/>`;
-  };
-
-  /* mobil — bentuk asli, digeser ke jalan lewat translate */
-  const car = (col) => `<ellipse cx="735" cy="${GY-1}" rx="52" ry="3.6" fill="#8a6f4d" opacity=".2"/>
-    <path d="M690 ${GY-8} q0 -9 10 -10 l10 -7 q5 -3 12 -3 h20 q7 0 11 3 l9 6 q11 1 11 11 z" fill="${col}"/>
-    <path d="M690 ${GY-8} q0 -9 10 -10 l10 -7 q5 -3 12 -3 h20 q7 0 11 3 l9 6 q11 1 11 11 z" fill="url(#wallShade)" opacity=".25"/>
-    <path d="M712 ${GY-18} l8 -6 q3 -2 8 -2 h14 q5 0 8 2 l7 6 z" fill="#bfe3f5"/>
-    <rect x="705" y="${GY-16}" width="72" height="6" rx="3" fill="#c74f36" opacity=".6"/>
-    <circle cx="712" cy="${GY-4}" r="7.5" fill="#2b2b36"/><circle cx="712" cy="${GY-4}" r="3" fill="#c9d2df"/>
-    <circle cx="762" cy="${GY-4}" r="7.5" fill="#2b2b36"/><circle cx="762" cy="${GY-4}" r="3" fill="#c9d2df"/>
-    <circle cx="775" cy="${GY-11}" r="2.6" fill="#ffe9a8"/>
-    <rect x="686" y="${GY-12}" width="5" height="4" rx="1" fill="#ff7a5c"/>`;
-
-  let s = '';
-  /* orang lewat (moderat: 3 orang dengan tempo berbeda) */
-  s += `<g class="sc-walk" style="animation-duration:26s;animation-delay:-4s"><g class="sc-bob">${ped('#4d7bd6','#f3c9a2','#2b2118')}</g></g>`;
-  s += `<g class="sc-walk" style="animation-duration:34s;animation-delay:-19s"><g class="sc-bob" style="animation-delay:-.5s">${ped('#e2664a','#e8b48a','#1c1c24')}</g></g>`;
-  s += `<g class="sc-walk-b" style="animation-duration:29s;animation-delay:-11s"><g class="sc-bob" style="animation-delay:-.9s">${ped('#3f8f5f','#f3c9a2','#4a3323')}</g></g>`;
-  /* mobil lewat (jarang: lama menunggu lalu melintas cepat) */
-  s += `<g class="sc-car" style="animation-duration:17s;animation-delay:-2s"><g transform="translate(-690 34)">${car('#f0b23a')}</g></g>`;
-  s += `<g class="sc-car-b" style="animation-duration:23s;animation-delay:-11s"><g transform="translate(790 34) scale(-1 1)">${car('#3a6ea5')}</g></g>`;
-  return s;
-}
-function renderSceneAnim(){
-  const el = document.getElementById('sceneAnim');
-  if(el) el.innerHTML = sceneAnimSVG();
-}
-
 let sceneKey = '';
 function renderScene(force){
   const k = [
@@ -2412,12 +1914,7 @@ function renderScene(force){
     amenities: S.amenities || {},
     phase: dayPhase(),
   });
-  const html = sceneSVG();
-  ['sceneBg', 'sceneHero'].forEach(id => {
-    const el = document.getElementById(id);
-    if(el) el.innerHTML = html;
-  });
-  document.querySelectorAll('.scene-splash').forEach(el => { el.innerHTML = html; });
+
 }
 
 /* ---------- sound ---------- */
@@ -2594,7 +2091,16 @@ function syncRoom(i){
 
   const hasTenant = !!r.tenant;
   const picKey = r.lvl + ':' + (hasTenant ? r.tenant.key : '');
-  if(ref._key !== picKey){ ref._key = picKey; ref.photo.innerHTML = roomSVG(r.lvl, hasTenant ? r.tenant.key : null); }
+  if(ref._key !== picKey){
+    ref._key = picKey;
+    const preview = window.kosRoomImage?.(r.lvl, hasTenant);
+    if(preview){
+      const image = document.createElement('img');
+      image.alt = '';
+      image.src = preview;
+      ref.photo.replaceChildren(image);
+    }
+  }
 
   if(r.lvl === 0){
     ref.el.classList.add('empty');
@@ -4888,7 +4394,6 @@ function boot(){
   const _oa = $('#ownerAva'); if(_oa) _oa.innerHTML = profileInner();
   refreshAll();
   renderScene(true);
-  renderSceneAnim();
   syncSwitches();
   updateMenuInfo();
   if(had) computeOffline();

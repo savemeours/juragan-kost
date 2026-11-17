@@ -12,4 +12,4 @@ Cloud save, peringkat global, hadiah mingguan dari peringkat, pembelian dengan D
 
 ## Pemandangan gedung 3D
 
-Geser gedung atau gunakan tombol putar di panggung untuk mengubah sudut pandang. Jendela menyala untuk kamar terisi. Three.js r160 disertakan untuk pemakaian offline. Browser tanpa dukungan WebGL tetap menggunakan pemandangan 2D.
+Geser gedung atau gunakan tombol putar di panggung untuk mengubah sudut pandang. Jendela menyala untuk kamar terisi. Three.js r160 disertakan untuk pemakaian offline. Gedung, latar menu, dan interior kamar menggunakan model 3D. Browser tanpa WebGL menggambar model yang sama melalui Canvas dan CPU.
