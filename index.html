@@ -4336,6 +4336,7 @@ $('#districtChoices').addEventListener('click',event=>{
   if(button.hasAttribute('data-show-lot')){
     closeAux();
     window.kosFocusDistrict?.(selectedPlot);
+    $('#kosStage').scrollIntoView({block:'center'});
     return;
   }
   if(button.hasAttribute('data-district-road')){
