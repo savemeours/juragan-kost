@@ -50,7 +50,7 @@ canvas{display:block;width:100%;height:100%;touch-action:none}
 
 .nav{position:absolute;right:clamp(12px,3vw,30px);top:90px;display:flex;gap:6px;align-items:center}
 .nav .game-link{position:static}
-#customize{background:#f4c981;color:#25261d;border:0;border-radius:10px;padding:8px 10px;font-size:12px;font-weight:800}
+#customize,#openTasks{background:#f4c981;color:#25261d;border:0;border-radius:10px;padding:8px 10px;font-size:12px;font-weight:800}
 .controls{display:flex;flex-direction:column;align-items:center}
 #joystick{display:grid;place-items:center;width:94px;height:94px;border-radius:100%;position:relative;background:#142821b6;border:1px solid #faf5dc82;touch-action:none}
 #stick{width:42px;height:42px;background:#e8b768;border:2px solid #f6d8a1;border-radius:50%;pointer-events:none}
@@ -68,7 +68,18 @@ canvas{display:block;width:100%;height:100%;touch-action:none}
 .avatar-preview canvas{position:static;width:100%;height:100%}
 #avatarError{grid-column:1/-1;font-size:12px;color:#ffd2ad;margin:0}
 #avatarError:empty{display:none}
-@media(max-width:560px){.nav{top:68px;gap:4px}.nav .game-link,#customize{font-size:10px;padding:6px}.nav .game-link{display:none}#joystick{width:88px;height:88px}#stick{width:38px;height:38px}}
+@media(max-width:560px){.nav{top:68px;gap:4px}.nav .game-link,#customize,#openTasks{font-size:10px;padding:6px}.nav .game-link{display:none}#joystick{width:88px;height:88px}#stick{width:38px;height:38px}}
+
+#serviceAction{width:100%;margin-top:6px;border:1px solid #b5c6a777;border-radius:9px;padding:7px 4px;color:#eef1df;background:#294536;font-size:12px}
+#serviceAction[hidden]{display:none}
+#taskDialog{width:min(405px,calc(100% - 30px));max-height:calc(100dvh - 42px);padding:17px;border-radius:17px;border:1px solid #b4c3a66e;background:#1a2d27;color:#f7f2e3}
+#taskDialog::backdrop{background:#13251b81}
+#taskDialog h2{margin:0 0 7px}
+.task-row{display:grid;grid-template-columns:1fr auto;align-items:center;gap:8px;padding:10px 0;border-bottom:1px solid #c7d7ba39}
+.task-row small{display:block;margin-top:4px;color:#cbd7ca}
+.task-row button,#closeTasks{border:1px solid #b5c6a777;border-radius:8px;padding:7px 10px;background:#2c4939;color:#f4f4df;font-size:12px}
+#closeTasks{margin-top:10px}
+#districtTime{display:inline-block;margin-top:5px;font-size:10px;color:#c1d0bf}
 </style>
 </head>
 <body>
@@ -78,8 +89,8 @@ canvas{display:block;width:100%;height:100%;touch-action:none}
     <div class="brand"><div class="logo" aria-hidden="true">JK</div><div><h1>Juragan Kost</h1><p>Bangun &amp; Kelola</p></div></div>
     <div class="stats"><div class="stat"><span>Saldo</span><b id="cash">—</b></div><div class="stat"><span>Terisi</span><b id="occupancy">—</b></div><div class="stat"><span>Sewa ditahan</span><b id="rent">—</b></div></div>
   </header>
-  <div id="goal"><b>TARGET</b><span id="objective">Bangun kamar pertama.</span></div>
-  <div class="nav"><button id="customize">Karakter</button><a class="game-link" href="klasik.html">Versi klasik</a></div>
+  <div id="goal"><b>TARGET</b><span id="objective">Bangun kamar pertama.</span><br><span id="districtTime"></span></div>
+  <div class="nav"><button id="openTasks">Misi</button><button id="customize">Karakter</button><a class="game-link" href="klasik.html">Versi klasik</a></div>
   <div id="notice" role="status"></div>
   <div class="controls" role="group" aria-label="Gerakkan karakter">
     <button type="button" id="joystick" aria-label="Joystick gerak"><span id="stick"></span></button>
@@ -89,8 +100,10 @@ canvas{display:block;width:100%;height:100%;touch-action:none}
     <h2 id="targetName">Jelajahi kos</h2>
     <p id="targetInfo">Ketuk penanda atau bergerak ke petak.</p>
     <button type="button" id="action" disabled>Belum ada tujuan</button>
+    <button type="button" id="serviceAction" hidden>Rawat kos</button>
   </section>
 </main>
+<dialog id="taskDialog" aria-labelledby="taskTitle"><h2 id="taskTitle">Misi harian</h2><div id="taskList"></div><button type="button" id="closeTasks">Tutup</button></dialog>
 <dialog id="avatarDialog" aria-labelledby="avatarTitle">
   <h2 id="avatarTitle">Edit karakter</h2>
   <form id="avatarForm">
@@ -106,6 +119,6 @@ canvas{display:block;width:100%;height:100%;touch-action:none}
 </dialog>
 <script src="three-r160.min.js"></script>
 <script src="kos-building-asset-pack.js"></script>
-<script src="kos-tycoon-assets.js"></script>
+<script src="kos-tycoon-life.js"></script>
 </body>
 </html>
