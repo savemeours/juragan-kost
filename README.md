@@ -9,3 +9,7 @@ Ekstrak ZIP, lalu buka `index.html` di browser. Untuk menjalankannya lewat serve
 Progres disimpan di browser. Gunakan **Pengaturan → Cadangan Progres** untuk mengekspor dan mengimpor file simpanan. Font Google memiliki fallback lokal. Pemasangan PWA memerlukan HTTPS atau localhost.
 
 Cloud save, peringkat global, hadiah mingguan dari peringkat, pembelian dengan Dollar, dan verifikasi paket ekspansi bergantung pada server asli. Salinan ini berjalan tanpa mengirim data pemain ke server tersebut.
+
+## Pemandangan gedung 3D
+
+Geser gedung atau gunakan tombol putar di panggung untuk mengubah sudut pandang. Jendela menyala untuk kamar terisi. Three.js r160 disertakan untuk pemakaian offline. Browser tanpa dukungan WebGL tetap menggunakan pemandangan 2D.

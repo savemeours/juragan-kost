@@ -660,6 +660,21 @@ a.mbtn{text-decoration:none}
 ::-webkit-scrollbar-thumb{background:#c9d8ee;border-radius:9px}
 ::-webkit-scrollbar-track{background:transparent}
 </style>
+<style>
+.hero #kosViewport { position:absolute; inset:0; visibility:hidden; }
+.hero.kos-3d-ready #kosViewport { visibility:visible; }
+.hero #kosViewport canvas { display:block; width:100%; height:100%; cursor:grab; touch-action:pan-y; }
+.hero #kosViewport canvas:active { cursor:grabbing; }
+.hero.kos-3d-ready { aspect-ratio: 2.18; min-height: 225px; }
+.hero.kos-3d-ready #sceneHero, .hero.kos-3d-ready #sceneAnim { visibility:hidden; }
+.hero.kos-3d-ready #sceneHero { position:absolute; inset:0; }
+.hero.kos-3d-ready .hero-grad { pointer-events:none; }
+.orbit-controls { display:none; position:absolute; z-index:4; left:12px; bottom:12px; gap:5px; }
+.kos-3d-ready .orbit-controls { display:flex; }
+.orbit-controls button { min-width:39px; min-height:39px; cursor:pointer; border:1px solid #ffffff9c; border-radius:10px; color:#fff; background:#192c44e8; font:800 18px/1 var(--font); }
+.orbit-controls button:focus-visible { outline:3px solid #ffc65f; outline-offset:2px; }
+@media (max-width:520px) { .hero.kos-3d-ready { aspect-ratio:1.55; } }
+</style>
 <style>#scrLeaderboard #btnLbRefresh { display:none; }</style>
 </head>
 <body>
@@ -1164,7 +1179,13 @@ a.mbtn{text-decoration:none}
   <main class="layout">
     <div class="col-main">
       <section class="building panel">
-        <div class="hero">
+        <div class="hero" id="kosStage">
+          <div id="kosViewport" aria-hidden="true"></div>
+          <div class="orbit-controls" role="group" aria-label="Sudut pandang gedung">
+            <button type="button" data-orbit="-1" aria-label="Putar gedung ke kiri">↶</button>
+            <button type="button" data-orbit="1" aria-label="Putar gedung ke kanan">↷</button>
+            <button type="button" data-orbit="0" aria-label="Kembalikan sudut pandang awal">⌂</button>
+          </div>
           <svg id="sceneHero" viewBox="0 0 800 240" preserveAspectRatio="xMidYMid meet"></svg>
           <svg id="sceneAnim" class="hero-anim" viewBox="0 0 800 240" preserveAspectRatio="xMidYMid meet" aria-hidden="true"></svg>
           <div class="hero-grad"></div>
@@ -1256,6 +1277,8 @@ a.mbtn{text-decoration:none}
 <div class="modal-wrap" id="modalWrap"><div class="modal" id="modal"></div></div>
 <div id="fx"></div>
 
+<script src="three-r160.min.js"></script>
+<script src="kos-scene.js"></script>
 <script>
 /* =========================================================
    JURAGAN KOS v2 — simulator kos-kosan
@@ -2382,6 +2405,13 @@ function renderScene(force){
   ].join('|');
   if(!force && k === sceneKey) return;
   sceneKey = k;
+  window.updateKosScene?.({
+    floors: floorCount(),
+    rooms: S.rooms,
+    level: S.bclass | 0,
+    amenities: S.amenities || {},
+    phase: dayPhase(),
+  });
   const html = sceneSVG();
   ['sceneBg', 'sceneHero'].forEach(id => {
     const el = document.getElementById(id);
