@@ -673,6 +673,11 @@ a.mbtn{text-decoration:none}
 .orbit-controls { display:none; position:absolute; z-index:4; left:12px; bottom:12px; gap:5px; }
 .kos-3d-ready .orbit-controls { display:flex; }
 .orbit-controls button { min-width:39px; min-height:39px; cursor:pointer; border:1px solid #ffffff9c; border-radius:10px; color:#fff; background:#192c44e8; font:800 18px/1 var(--font); }
+.facility-views { display:flex; flex-wrap:wrap; justify-content:flex-end; gap:4px; position:absolute; z-index:4; right:10px; bottom:12px; max-width:60%; }
+.facility-views button { min-height:34px; padding:0 7px; border-radius:8px; border:1px solid #e6eeeab0; color:white; background:#192c44ee; font:800 11px/1 var(--font); cursor:pointer; }
+.facility-views button[aria-pressed="true"] { background:#f3ca7c; color:#292518; }
+.facility-views button:focus-visible { outline:3px solid #ffc65f; outline-offset:2px; }
+@media(max-width:370px) { .facility-views button { padding:0 5px; } }
 .orbit-controls button:focus-visible { outline:3px solid #ffc65f; outline-offset:2px; }
 @media (max-width:520px) { .hero { aspect-ratio:1.55; } }
 </style>
@@ -1159,6 +1164,11 @@ a.mbtn{text-decoration:none}
       <section class="building panel">
         <div class="hero" id="kosStage">
           <div id="kosViewport" aria-hidden="true"></div>
+          <div class="facility-views" role="group" aria-label="Lihat fasilitas">
+            <button type="button" data-facility-view="rooftop" aria-label="Lihat kafe rooftop" aria-pressed="false" hidden>Rooftop</button>
+            <button type="button" data-facility-view="kolam" aria-label="Lihat kolam renang" aria-pressed="false" hidden>Kolam</button>
+            <button type="button" data-facility-view="parkir" aria-label="Lihat area parkir" aria-pressed="false" hidden>Parkir</button>
+          </div>
           <div class="orbit-controls" role="group" aria-label="Sudut pandang gedung">
             <button type="button" data-orbit="-1" aria-label="Putar gedung ke kiri">↶</button>
             <button type="button" data-orbit="1" aria-label="Putar gedung ke kanan">↷</button>
@@ -1256,7 +1266,7 @@ a.mbtn{text-decoration:none}
 <div id="fx"></div>
 
 <script src="three-r160.min.js"></script>
-<script src="kos-architecture.js"></script>
+<script src="kos-facilities.js"></script>
 <script>
 /* =========================================================
    JURAGAN KOS v2 — simulator kos-kosan
