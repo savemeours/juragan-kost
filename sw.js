@@ -1,9 +1,11 @@
 /* Juragan Kost — service worker (PWA offline shell) */
 const CACHE_PREFIX = 'juragan-kost-copy:' + self.registration.scope;
-const CACHE = CACHE_PREFIX + ':v13';
+const CACHE = CACHE_PREFIX + ':v14';
 const SHELL = [
   './',
   './index.html',
+  './klasik.html',
+  './kos-tycoon.js',
   './three-r160.min.js',
   './kos-district-view.js',
   './manifest.webmanifest',
@@ -46,7 +48,7 @@ self.addEventListener('fetch', (e) => {
           caches.open(CACHE).then((c) => c.put(req, copy)).catch(() => {});
           return res;
         })
-        .catch(() => caches.match(req).then((r) => r || caches.match('./index.html')))
+        .catch(() => caches.match(req).then((r) => r || caches.match(url.pathname.endsWith('/klasik.html') ? './klasik.html' : './index.html')))
     );
     return;
   }
