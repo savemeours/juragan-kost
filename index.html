@@ -682,7 +682,22 @@ a.mbtn{text-decoration:none}
 @media (max-width:520px) { .hero { aspect-ratio:1.55; } }
 </style>
 <style>#scrLeaderboard #btnLbRefresh { display:none; }</style>
-</head>
+<style>
+#scrDistrict .screen-inner { max-width:680px; }
+.district-tabs,.district-choices,.resident-choices { display:flex; flex-wrap:wrap; gap:7px; margin:9px 0; }
+.district-tabs button[aria-pressed="true"], .district-map button[aria-pressed="true"] { outline:2px solid #b06d2b; background:#fff0d6; }
+.district-map { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:7px; padding:10px; background:#e6eee5; border-radius:12px; }
+.district-map button { min-height:62px; text-align:left; padding:5px 8px; overflow-wrap:anywhere; }
+.district-map small { display:block; margin-top:3px; }
+.district-road { grid-column:1/-1; padding:3px; border-radius:5px; background:#52626a; color:white; text-align:center; font-size:11px; }
+.district-status { margin:8px 0; min-height:18px; font-size:13px; }
+.resident-select { width:100%; padding:8px; border:1px solid #8696a8; border-radius:9px; font:inherit; }
+.resident-card { display:grid; grid-template-columns: minmax(70px,104px) 1fr; gap:12px; align-items:center; margin-top:10px; }
+.resident-card img { width:100%; border-radius:9px; }
+.resident-need { display:grid; grid-template-columns:65px 1fr 35px; gap:6px; align-items:center; font-size:12px; }
+.resident-need meter { width:100%; }
+@media(max-width:400px){.district-map{gap:5px;padding:7px}.district-map button{font-size:11px;padding:5px}.resident-card{grid-template-columns:76px 1fr}}
+</style></head>
 <body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
 <defs>
@@ -1081,6 +1096,32 @@ a.mbtn{text-decoration:none}
 </div>
 
 <!-- ================= PAKET EKSPANSI ================= -->
+<div class="screen" id="scrDistrict">
+  <div class="screen-bg"></div><div class="screen-veil"></div>
+  <div class="screen-inner">
+    <div class="modal">
+      <h2>Lingkungan Kos</h2>
+      <div class="district-tabs" role="group" aria-label="Bagian lingkungan">
+        <button class="mini-btn" id="btnDistrictBuild" aria-pressed="true">Bangun kawasan</button>
+        <button class="mini-btn" id="btnDistrictLife" aria-pressed="false">Kehidupan penghuni</button>
+      </div>
+      <div id="districtBuild">
+        <div class="district-map" id="districtMap" aria-label="Denah kawasan"></div>
+        <p class="district-status" id="districtInfo"></p>
+        <div class="district-choices" id="districtChoices"></div>
+      </div>
+      <div id="districtLife" hidden>
+        <label for="residentSelect">Pilih penghuni</label>
+        <select id="residentSelect" class="resident-select"></select>
+        <div id="residentDetail"></div>
+        <div class="resident-choices" id="residentActions"></div>
+      </div>
+      <p id="districtStatus" class="district-status" role="status"></p>
+      <button class="mbtn sm" id="btnDistrictBack">← Kembali</button>
+    </div>
+  </div>
+</div>
+
 <div class="screen" id="scrPack">
   <div class="screen-bg"></div>
   <div class="screen-veil"></div>
@@ -1199,6 +1240,7 @@ a.mbtn{text-decoration:none}
           <div class="sum"><span>Reputasi</span><b id="sumRep" style="font-size:13px">—</b></div>
         </div>
         <div class="building-foot">
+          <button class="btn ghost" id="btnDistrict">Lingkungan &amp; Penghuni</button>
           <button class="btn ghost" id="btnExpand">Bangun Lantai Baru</button>
           <button class="btn" id="btnCollectAll" style="display:none">💰 Tagih Semua</button>
         </div>
@@ -1266,7 +1308,7 @@ a.mbtn{text-decoration:none}
 <div id="fx"></div>
 
 <script src="three-r160.min.js"></script>
-<script src="kos-facilities.js"></script>
+<script src="kos-district.js"></script>
 <script>
 /* =========================================================
    JURAGAN KOS v2 — simulator kos-kosan
@@ -1663,6 +1705,21 @@ function genPid(){
   }
 }
 
+const DISTRICT_ROAD_COST = 250000;
+const DISTRICT_PLOTS = [
+  {label:'Barat Laut',x:-10,z:-11.4,road:'north'},
+  {label:'Utara',x:0,z:-11.4,road:'north'},
+  {label:'Timur Laut',x:10,z:-11.4,road:'north'},
+  {label:'Barat Daya',x:-9,z:11.7,road:'south'},
+  {label:'Selatan',x:0,z:11.7,road:'south'},
+  {label:'Tenggara',x:9,z:11.7,road:'south'},
+];
+const DISTRICT_TYPES = {
+  taman:{label:'Taman',cost:400000,description:'Penghuni bisa jalan santai. Reputasi naik.'},
+  warung:{label:'Warung',cost:550000,description:'Penghuni bisa makan di warung. Penghuni baru lebih cepat datang.'},
+  komunitas:{label:'Balai warga',cost:700000,description:'Penghuni bisa berkumpul. Reputasi naik.'},
+};
+
 function freshState(){
   const rooms = [];
   for(let i=0;i<ROOM_MAX;i++) rooms.push({lvl:0, tenant:null, pool:0, mood:100});
@@ -1682,6 +1739,7 @@ function freshState(){
     quest:{claimed:{}, stat:{daily:{},weekly:{},monthly:{}}, period:{}},
     trophies:{}, talents:{}, newsSeen:'',
     renameCards:1, renameBuys:0, dollars:0,
+    district:{roads:{south:true,north:false},plots:Array(6).fill(null)},
   };
 }
 
@@ -1704,6 +1762,18 @@ let deferredInstall = null;
 function save(){
   if(reloadGuard) return;
   try{ S.savedAt = Date.now(); localStorage.setItem(SAVE_KEY, JSON.stringify(S)); }catch(e){}
+}
+
+function districtState(){
+  const data=S.district;
+  if(!data || !Array.isArray(data.plots) || !data.roads) {
+    S.district={roads:{south:true,north:false},plots:Array(DISTRICT_PLOTS.length).fill(null)};
+  }
+  return S.district;
+}
+
+function districtCount(type){
+  return districtState().plots.filter((kind,i)=>kind===type && districtState().roads[DISTRICT_PLOTS[i]?.road]).length;
 }
 
 function load(){
@@ -1784,7 +1854,7 @@ function rating(){ return 1 + 4 * (repPoints() / 100); }        // 1.00 – 5.00
 function repTarget(){
   const occup    = S.unlocked ? roomsFilledCount() / S.unlocked : 0;
   const amenNorm = amenLevels() / (AMENITIES.length * AMEN_MAX);
-  return clamp(6 + 34 * amenNorm + 34 * (avgTenantMood() / 100) + 26 * occup, 0, 100);
+  return clamp(6 + 34 * amenNorm + 34 * (avgTenantMood() / 100) + 26 * occup + Math.min(8,2*districtCount('taman')+3*districtCount('komunitas')), 0, 100);
 }
 function repLabel(){
   const r = rating();
@@ -1884,6 +1954,7 @@ function renderScene(force){
     S.rooms.slice(0, 24).map(r => r.lvl + (r.tenant ? r.tenant.key[0] : '-')).join(','),
     AMENITIES.map(a => S.amenities[a.key] | 0).join(','),
     S.kosName,
+    JSON.stringify(districtState()),
     S.bclass | 0,
     dayPhase(),
   ].join('|');
@@ -1894,6 +1965,8 @@ function renderScene(force){
     rooms: S.rooms,
     level: S.bclass | 0,
     amenities: S.amenities || {},
+    district: districtState(),
+    districtPlots: DISTRICT_PLOTS,
     phase: dayPhase(),
   });
 
@@ -2598,7 +2671,9 @@ function update(dt){
     r.pool = Math.min(cap, r.pool + rent * dt);
     const full = r.pool >= cap - 1;
 
-    r.mood -= dt * 0.25 * r.tenant.decay * (full ? 2.2 : 1);
+    const needs=readResidentLife(r.tenant);
+    const discomfort=(needs.lapar<25 || needs.energi<25 || needs.sosial<25) ? 1.25 : 1;
+    r.mood -= dt * 0.25 * r.tenant.decay * (full ? 2.2 : 1) * discomfort;
     if(r.mood < 0) r.mood = 0;
 
     r.tenant.stayLeft -= dt;
@@ -2622,7 +2697,7 @@ function update(dt){
 
   S.spawnIn -= dt;
   if(S.spawnIn <= 0){
-    const rate = ((S.rentPop || 1) * (1 + 0.2 * S.perks.marketing) + S.popBoost) * (1 + 0.12 * talentLv('magnet'));
+    const rate = ((S.rentPop || 1) * (1 + 0.2 * S.perks.marketing) + S.popBoost) * (1 + 0.12 * talentLv('magnet')) * (1 + .10*districtCount('warung'));
     S.spawnIn = rand(9, 16) / Math.max(0.25, rate);
     trySpawn();
   }
@@ -4162,6 +4237,150 @@ $('#btnContact').addEventListener('click', ()=>{
   window.location.href = `mailto:mail@tenzou.dev?subject=${subject}&body=${body}`;
 });
 $('#btnPackBuy').addEventListener('click', buyExpansionPack);
+
+/* ---------- kawasan dan kehidupan penghuni ---------- */
+let selectedPlot=3, selectedResident=null, districtTab='build';
+const districtMoney=value=>'Rp '+packRupiah.format(value);
+const residentActivities={
+  makan:{label:'Makan di warung',where:'warung',need:'lapar',boost:55},
+  santai:{label:'Jalan di taman',where:'taman',need:'energi',boost:40},
+  kumpul:{label:'Mampir ke balai warga',where:'komunitas',need:'sosial',boost:55},
+  istirahat:{label:'Istirahat di kamar',need:'energi',boost:55},
+};
+const residentNeeds={lapar:'Kenyang',energi:'Energi',sosial:'Sosial'};
+
+function districtClock(){ return (S.month-1)*MONTH_SECONDS+S.time; }
+
+function readResidentLife(tenant){
+  const life=tenant.life ??= {at:districtClock()};
+  const age=Math.max(0,districtClock()-(life?.at ?? districtClock()));
+  return {
+    lapar:clamp((life?.lapar ?? 76)-age*1.12,0,100),
+    energi:clamp((life?.energi ?? 81)-age*.82,0,100),
+    sosial:clamp((life?.sosial ?? 69)-age*.56,0,100),
+    activity:age<12 ? life?.activity : '',
+    busy:age<4 && !!life?.activity,
+  };
+}
+
+function renderDistrict(){
+  const state=districtState();
+  $('#btnDistrictBuild').setAttribute('aria-pressed',String(districtTab==='build'));
+  $('#btnDistrictLife').setAttribute('aria-pressed',String(districtTab==='life'));
+  $('#districtBuild').hidden=districtTab!=='build';
+  $('#districtLife').hidden=districtTab!=='life';
+  if(districtTab==='life'){ renderResidents(); return; }
+  const plot=DISTRICT_PLOTS[selectedPlot];
+  const built=Object.hasOwn(DISTRICT_TYPES,state.plots[selectedPlot]) ? DISTRICT_TYPES[state.plots[selectedPlot]] : null;
+  const connected=!!state.roads[plot.road];
+  const roadLabel=key=>state.roads[key] ? 'Terhubung' : 'Belum terhubung';
+  const mapButtons=DISTRICT_PLOTS.map((tile,i)=>{
+    const type=state.plots[i];
+    const name=Object.hasOwn(DISTRICT_TYPES,type)?DISTRICT_TYPES[type].label:'Lahan kosong';
+    return `<button type="button" class="mini-btn" data-lot="${i}" aria-pressed="${i===selectedPlot}">${tile.label}<small>${name}</small></button>`;
+  });
+  $('#districtMap').innerHTML=`<div class="district-road">Jalan Utara · ${roadLabel('north')}</div>${mapButtons.slice(0,3).join('')}<div class="district-road">Kos &amp; Jalan Utama</div>${mapButtons.slice(3).join('')}<div class="district-road">Jalan Selatan · ${roadLabel('south')}</div>`;
+  $('#districtInfo').textContent=plot.label+' · '+(built ? built.description : connected ? 'Pilih fasilitas untuk lahan ini.' : 'Sambungkan jalan sebelum membangun.');
+  const choices = built ? '' : !connected
+    ? `<button class="mini-btn" data-district-road ${S.money<DISTRICT_ROAD_COST?'disabled':''}>Sambungkan jalan · ${districtMoney(DISTRICT_ROAD_COST)}</button>`
+    : Object.entries(DISTRICT_TYPES).map(([key,value])=>`<button class="mini-btn" data-zone="${key}" title="${value.description}" ${S.money<value.cost?'disabled':''}>${value.label} · ${districtMoney(value.cost)}</button>`).join('');
+  $('#districtChoices').innerHTML=choices+`<button class="mini-btn" data-show-lot>Lihat lahan 3D</button>`;
+}
+
+function renderResidents(){
+  const list=S.rooms.slice(0,S.unlocked).flatMap((room,index)=>room.tenant ? [{room,index}] : []);
+  const select=$('#residentSelect');
+  select.disabled=!list.length;
+  if(!list.length){
+    select.replaceChildren();
+    $('#residentDetail').textContent='Belum ada penghuni.';
+    $('#residentActions').replaceChildren();
+    return;
+  }
+  if(!list.some(entry=>entry.room.tenant===selectedResident)) selectedResident=list[0].room.tenant;
+  const entry=list.find(item=>item.room.tenant===selectedResident);
+  select.innerHTML=list.map(({room,index})=>`<option value="${index}">Kamar ${index+1} · ${esc(room.tenant.name)}</option>`).join('');
+  select.value=String(entry.index);
+  const life=readResidentLife(selectedResident);
+  const preview=window.kosRoomImage?.(entry.room.lvl,selectedResident.key);
+  $('#residentDetail').innerHTML=`<div class="resident-card">${preview?`<img alt="" src="${preview}">`:'<span></span>'}<div><b>${esc(life.activity || 'Di kos')}</b>${Object.entries(residentNeeds).map(([key,label])=>`<div class="resident-need"><span>${label}</span><meter aria-label="${label}" min="0" max="100" value="${life[key]}"></meter><span>${Math.round(life[key])}%</span></div>`).join('')}</div></div>`;
+  $('#residentActions').innerHTML=Object.entries(residentActivities).map(([key,action])=>{
+    const available=!action.where || districtCount(action.where)>0;
+    return `<button class="mini-btn" data-resident-action="${key}" ${!available||life.busy?'disabled':''}>${action.label}${available?'':' · Belum dibangun'}</button>`;
+  }).join('');
+}
+
+function openDistrict(){
+  auxReturn=backTarget();
+  $('#districtStatus').textContent='';
+  renderDistrict();
+  showScreen('scrDistrict');
+}
+
+$('#btnDistrict').addEventListener('click',openDistrict);
+$('#btnDistrictBack').addEventListener('click',closeAux);
+$('#btnDistrictBuild').addEventListener('click',()=>{districtTab='build';renderDistrict();});
+$('#btnDistrictLife').addEventListener('click',()=>{districtTab='life';renderDistrict();});
+$('#districtMap').addEventListener('click',event=>{
+  const button=event.target.closest('[data-lot]');
+  if(!button) return;
+  selectedPlot=Number(button.dataset.lot);
+  $('#districtStatus').textContent='';
+  renderDistrict();
+  $('#districtMap').querySelector(`[data-lot="${selectedPlot}"]`).focus();
+});
+$('#districtChoices').addEventListener('click',event=>{
+  const button=event.target.closest('button');
+  if(!button || !S.setupDone) return;
+  const plot=DISTRICT_PLOTS[selectedPlot], state=districtState();
+  if(button.hasAttribute('data-show-lot')){
+    closeAux();
+    window.kosFocusDistrict?.(selectedPlot);
+    return;
+  }
+  if(button.hasAttribute('data-district-road')){
+    if(state.roads[plot.road] || S.money<DISTRICT_ROAD_COST) return;
+    S.money-=DISTRICT_ROAD_COST;
+    state.roads[plot.road]=true;
+    $('#districtStatus').textContent='Jalan tersambung. Lahan di jalur ini siap dibangun.';
+  }else{
+    const key=button.dataset.zone;
+    if(!Object.hasOwn(DISTRICT_TYPES,key) || state.plots[selectedPlot] || !state.roads[plot.road]) return;
+    const zone=DISTRICT_TYPES[key];
+    if(S.money<zone.cost) return;
+    S.money-=zone.cost;
+    state.plots[selectedPlot]=key;
+    $('#districtStatus').textContent=zone.label+' selesai dibangun.';
+  }
+  save();
+  sfxBuy();
+  refreshAll();
+  renderDistrict();
+});
+$('#residentSelect').addEventListener('change',event=>{
+  selectedResident=S.rooms[Number(event.target.value)]?.tenant ?? null;
+  renderResidents();
+});
+$('#residentActions').addEventListener('click',event=>{
+  const key=event.target.closest('[data-resident-action]')?.dataset.residentAction;
+  if(!Object.hasOwn(residentActivities,key)) return;
+  const index=S.rooms.findIndex(room=>room.tenant===selectedResident);
+  if(index<0 || index>=S.unlocked) return;
+  const action=residentActivities[key];
+  const life=readResidentLife(selectedResident);
+  if(life.busy || (action.where && !districtCount(action.where))) return;
+  life[action.need]=Math.min(100,life[action.need]+action.boost);
+  selectedResident.life={...life,at:districtClock(),activity:action.label};
+  S.rooms[index].mood=Math.min(100,S.rooms[index].mood+11);
+  save();
+  syncRoom(index);
+  $('#districtStatus').textContent='Aktivitas dimulai. Mood penghuni naik.';
+  renderResidents();
+});
+setInterval(()=>{
+  if(currentScreen()!=='scrDistrict' || districtTab!=='life') return;
+  if(!document.activeElement?.closest('#residentSelect, #residentActions')) renderResidents();
+},3000);
 
 /* ---------- boot ---------- */
 function refreshAll(){
