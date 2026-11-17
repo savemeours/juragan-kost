@@ -72,13 +72,13 @@ canvas{display:block;width:100%;height:100%;touch-action:none}
 
 #serviceAction{width:100%;margin-top:6px;border:1px solid #b5c6a777;border-radius:9px;padding:7px 4px;color:#eef1df;background:#294536;font-size:12px}
 #serviceAction[hidden]{display:none}
-#taskDialog{width:min(405px,calc(100% - 30px));max-height:calc(100dvh - 42px);padding:17px;border-radius:17px;border:1px solid #b4c3a66e;background:#1a2d27;color:#f7f2e3}
-#taskDialog::backdrop{background:#13251b81}
-#taskDialog h2{margin:0 0 7px}
+#taskDialog,#farmDialog{width:min(405px,calc(100% - 30px));max-height:calc(100dvh - 42px);padding:17px;border-radius:17px;border:1px solid #b4c3a66e;background:#1a2d27;color:#f7f2e3}
+#taskDialog::backdrop,#farmDialog::backdrop{background:#13251b81}
+#taskDialog h2,#farmDialog h2{margin:0 0 7px}
 .task-row{display:grid;grid-template-columns:1fr auto;align-items:center;gap:8px;padding:10px 0;border-bottom:1px solid #c7d7ba39}
 .task-row small{display:block;margin-top:4px;color:#cbd7ca}
-.task-row button,#closeTasks{border:1px solid #b5c6a777;border-radius:8px;padding:7px 10px;background:#2c4939;color:#f4f4df;font-size:12px}
-#closeTasks{margin-top:10px}
+.task-row button,#closeTasks,#closeFarm{border:1px solid #b5c6a777;border-radius:8px;padding:7px 10px;background:#2c4939;color:#f4f4df;font-size:12px}
+#closeTasks,#closeFarm{margin-top:10px}
 #districtTime{display:inline-block;margin-top:5px;font-size:10px;color:#c1d0bf}
 </style>
 </head>
@@ -103,6 +103,9 @@ canvas{display:block;width:100%;height:100%;touch-action:none}
     <button type="button" id="serviceAction" hidden>Rawat kos</button>
   </section>
 </main>
+<dialog id="farmDialog" aria-labelledby="farmTitle">
+  <h2 id="farmTitle"></h2><p id="farmInfo"></p><div id="farmChoices"></div><button type="button" id="closeFarm">Tutup</button>
+</dialog>
 <dialog id="taskDialog" aria-labelledby="taskTitle"><h2 id="taskTitle">Misi harian</h2><div id="taskList"></div><button type="button" id="closeTasks">Tutup</button></dialog>
 <dialog id="avatarDialog" aria-labelledby="avatarTitle">
   <h2 id="avatarTitle">Edit karakter</h2>
@@ -119,6 +122,7 @@ canvas{display:block;width:100%;height:100%;touch-action:none}
 </dialog>
 <script src="three-r160.min.js"></script>
 <script src="kos-building-asset-pack.js"></script>
-<script src="kos-tycoon-life.js"></script>
+<script src="kos-farm-asset-pack.js"></script>
+<script src="kos-tycoon-farm.js"></script>
 </body>
 </html>

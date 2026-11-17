@@ -1,12 +1,13 @@
 /* Juragan Kost — service worker (PWA offline shell) */
 const CACHE_PREFIX = 'juragan-kost-copy:' + self.registration.scope;
-const CACHE = CACHE_PREFIX + ':v20';
+const CACHE = CACHE_PREFIX + ':v21';
 const SHELL = [
   './',
   './index.html',
   './klasik.html',
   './kos-building-asset-pack.js',
-  './kos-tycoon-life.js',
+  './kos-farm-asset-pack.js',
+  './kos-tycoon-farm.js',
   './three-r160.min.js',
   './kos-district-view.js',
   './manifest.webmanifest',

@@ -12,3 +12,7 @@ Model bangunan berikut berasal dari **Codels**, dirilis dengan [CC0 1.0](https:/
 | Sedan | [Codels](https://codels.download/models/sedan) | Mobil di tepi jalan |
 
 Model GLB dikonversi ke mesh ringkas dan disesuaikan skala serta materialnya. Mesh yang sama dipakai oleh model Three.js dan renderer CPU. Tidak diperlukan CDN model saat bermain.
+
+## Kebun dan lapak
+
+[Farm Kit oleh Codels](https://codels.download/collections/farm-kit), CC0 1.0: Wheat Patch, Carrot, Pumpkin, Wooden Fence, Scarecrow, Wicker Basket, dan Chicken. Geometri dikonversi ke mesh ringkas dan disesuaikan skalanya untuk kebun.
