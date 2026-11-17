@@ -1279,7 +1279,7 @@ a.mbtn{text-decoration:none}
 <div id="fx"></div>
 
 <script src="three-r160.min.js"></script>
-<script src="kos-scene-neighborhood.js"></script>
+<script src="kos-world-motion.js"></script>
 <script>
 /* =========================================================
    JURAGAN KOS v2 — simulator kos-kosan
@@ -2093,7 +2093,7 @@ function syncRoom(i){
   const picKey = r.lvl + ':' + (hasTenant ? r.tenant.key : '');
   if(ref._key !== picKey){
     ref._key = picKey;
-    const preview = window.kosRoomImage?.(r.lvl, hasTenant);
+    const preview = window.kosRoomImage?.(r.lvl, r.tenant?.key);
     if(preview){
       const image = document.createElement('img');
       image.alt = '';
@@ -2449,6 +2449,7 @@ function trySpawn(){
   S.popBoost += t.pop || 0;
   qAdd('spawn', 1);
   toast(`${t.emoji} ${t.name} menempati kamar ${i+1}`, '');
+  window.kosTenantArrival?.(i,t.key);
   syncRoom(i);
 }
 
